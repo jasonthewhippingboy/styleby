@@ -51,32 +51,32 @@ class Fashion911Controller {
         }
     }
     
-    static func addPost(image: UIImage, whatsYourEmergency: String?, completion: (success: Bool, post: Post?) -> Void) {
+    static func addFashion911(image: UIImage, whatsYourEmergency: String?, completion: (success: Bool, fashion911: Fashion911?) -> Void) {
         
         ImageController.uploadImage(image) { (identifier) -> Void in
             
             if let identifier = identifier {
-                var post = Post(imageEndpoint: identifier, whatsYourEmergency: whatsYourEmergency, username: UserController.sharedController.currentUser.username)
-                post.save()
-                completion(success: true, post: post)
+                var fashion911 = Fashion911(imageEndpoint: identifier, whatsYourEmergency: whatsYourEmergency, username: UserController.sharedController.currentUser.username)
+                fashion911.save()
+                completion(success: true, fashion911: fashion911)
             } else {
-                completion(success: false, post: nil)
+                completion(success: false, fashion911: nil)
             }
         }
     }
     
     static func postFromIdentifier(identifier: String, completion: (post: Post?) -> Void) {
         
-        FirebaseController.ref.child("posts"(identifier)) { (data) -> Void in
-            
-            if let data = data as? [String: AnyObject] {
-                let post = Post(json: data, identifier: identifier)
-                
-                completion(post: post)
-            } else {
-                completion(post: nil)
-            }
-        }
+        FirebaseController.ref.child("posts\(identifier)").observeSingleEventOfType(.Value, withBlock: { snapshot in
+            // TODO: Parse snapshot as Post
+//            if let data = data as? [String: AnyObject] {
+//                let post = Post(json: data, identifier: identifier)
+//                
+//                completion(post: post)
+//            } else {
+//                completion(post: nil)
+//            }
+        })
     }
     
     static func postsForUser(user: User, completion: (posts: [Post]?) -> Void) {

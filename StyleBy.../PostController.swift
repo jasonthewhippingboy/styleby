@@ -65,16 +65,16 @@ class PostController {
     
     static func postFromIdentifier(identifier: String, completion: (post: Post?) -> Void) {
         
-        FirebaseController.ref.child(endpoint).child("posts/\(identifier)") { (data) -> Void in
-            
-            if let data = data as? [String: AnyObject] {
-                let post = Post(json: data, identifier: identifier)
-                
-                completion(post: post)
-            } else {
-                completion(post: nil)
-            }
-        }
+        FirebaseController.ref.child("posts/\(identifier)").observeSingleEventOfType(.Value, withBlock: { snapshot in
+            // TODO: Parse post data
+//            if let data = data as? [String: AnyObject] {
+//                let post = Post(json: data, identifier: identifier)
+//                
+//                completion(post: post)
+//            } else {
+//                completion(post: nil)
+//            }
+            })
     }
     
     static func postsForUser(user: User, completion: (posts: [Post]?) -> Void) {

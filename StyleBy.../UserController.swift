@@ -139,7 +139,7 @@ class UserController {
         })
     }
     
-    static func createUser(firstName: String, lastName: String, email: String, username: String, password: String, bio: String?, url: String?, completion: (success: Bool, user: User?) -> Void) {
+    static func createUser(username username: String, firstName: String, lastName: String, email: String, password: String, bio: String?, url: String?, completion: (success: Bool, user: User?) -> Void) {
         
         FIRAuth.auth()?.createUserWithEmail(email, password: password, completion: { (user, error) in
             if let user = user where error == nil {
@@ -152,9 +152,11 @@ class UserController {
         })
     }
     
-    static func updateUser(user: User, username: String, bio: String?, url: String?, completion: (success: Bool, user: User?) -> Void) {
+    static func updateUser(user: User, username: String, firstName: String, lastName: String, bio: String?, url: String?, completion: (success: Bool, user: User?) -> Void) {
         var updatedUser = user
         updatedUser.username = username
+        updatedUser.firstName = firstName
+        updatedUser.lastName = lastName
         updatedUser.bio = bio
         updatedUser.url = url
         updatedUser.save()

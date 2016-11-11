@@ -26,7 +26,7 @@ struct Fashion911: Equatable, FirebaseType {
         return "posts"
     }
     var dictionaryCopy: [String : AnyObject] {
-        var dictionaryCopy: [String: AnyObject] = [kUsername : username, kImageEndpoint : imageEndpoint, kComments : comments.map({$0.jsonValue}), kLikes : likes.map({$0.jsonValue})]
+        var dictionaryCopy: [String: AnyObject] = [kUsername : username, kImageEndpoint : imageEndpoint, kComments : comments.map { $0.dictionaryCopy }, kLikes : likes.map { $0.dictionaryCopy }]
         
         if let whatsYourEmergency = whatsYourEmergency {
             dictionaryCopy.updateValue(whatsYourEmergency, forKey: kwhatsYourEmergency)
