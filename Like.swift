@@ -23,9 +23,9 @@ struct Like: FirebaseType {
         return [kUsername: username, kPost: postIdentifier]
     }
     
-    init?(dictionary json: [String : AnyObject], identifier: String) {
-        guard let postIdentifier = json[kPost] as? String,
-            let username = json[kUsername] as? String else { return nil }
+    init?(dictionary: [String : AnyObject], identifier: String) {
+        guard let postIdentifier = dictionary[kPost] as? String,
+            let username = dictionary[kUsername] as? String else { return nil }
         
         self.postIdentifier = postIdentifier
         self.username = username

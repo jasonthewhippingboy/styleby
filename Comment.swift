@@ -17,7 +17,7 @@ struct Comment: Equatable, FirebaseType {
     let username: String
     let text: String
     let postIdentifier: String
-    var identifier: String
+    var identifier: String?
     var endpoint: String {
         return "/posts/\(postIdentifier)/comments/"
     }
@@ -25,7 +25,7 @@ struct Comment: Equatable, FirebaseType {
         return [kPost : postIdentifier, kUsername : username, kText : text]
     }
     
-    init(username: String, text: String, postIdentifier: String, identifier: String) {
+    init(username: String, text: String, postIdentifier: String, identifier: String? = nil) {
         
         self.username = username
         self.text = text

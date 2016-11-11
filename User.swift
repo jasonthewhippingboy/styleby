@@ -24,7 +24,7 @@ struct User: FirebaseType {
     var email: String
     var bio: String?
     var url: String?
-    var identifier: String
+    var identifier: String?
     
     var endpoint: String {
         return User.userKey
@@ -36,7 +36,7 @@ struct User: FirebaseType {
         return [kUsername: username, kFirstName: firstName, kLastName: lastName, kEmail: email, kBio: (bio)!, kURL: (url)!]
         }
         
-    init(username: String, firstName: String, lastName: String, email: String, bio: String? = nil, URL: String? = nil, identifier: String) {
+    init(username: String, firstName: String, lastName: String, email: String, bio: String? = nil, URL: String? = nil, identifier: String? = nil) {
         self.username = username
         self.firstName = firstName
         self.lastName = lastName

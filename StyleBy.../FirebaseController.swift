@@ -16,7 +16,7 @@ struct FirebaseController {
 
 protocol FirebaseType {
     var endpoint: String {get}
-    var identifier: String {get set}
+    var identifier: String? {get set}
     var dictionaryCopy: [String: AnyObject] {get}
     
     init?(dictionary: [String: AnyObject], identifier: String)
@@ -42,6 +42,6 @@ extension FirebaseType {
         guard let identifier = identifier else {
             return
         }
-        FirebaseController.ref.child(Self.endpoint).child(identifier).removeValue()
+        FirebaseController.ref.child(endpoint).child(identifier).removeValue()
     }
 }

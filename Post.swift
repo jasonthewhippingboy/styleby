@@ -32,7 +32,7 @@ class Post: Equatable, FirebaseType {
         return "posts"
     }
     var dictionaryCopy: [String: AnyObject] {
-        var dictionaryCopy: [String: AnyObject] = [kUsername : username, kImageEndpoint : imageEndpoint, kComments : comments.map({$0.dictionaryCopyValue}), kLikes : likes.map({$0.dictionaryCopyValue})]
+        var dictionaryCopy: [String: AnyObject] = [kUsername : username, kImageEndpoint : imageEndpoint, kComments : comments.map { $0.dictionaryCopy }, kLikes : likes.map { $0.dictionaryCopy }]
         
         if let topBy = topBy {
             dictionaryCopy.updateValue(topBy, forKey: kTopBy)
@@ -43,8 +43,8 @@ class Post: Equatable, FirebaseType {
         if let shoesBy = shoesBy {
             dictionaryCopy.updateValue(shoesBy, forKey: kShoesBy)
         }
-        if let topBy = accessoriesBy {
-            dictionaryCopy.updateValue(accessoriesBy!, forKey: kAccessoriesBy)
+        if let accessoriesBy = accessoriesBy {
+            dictionaryCopy.updateValue(accessoriesBy, forKey: kAccessoriesBy)
         }
         return dictionaryCopy
     }
