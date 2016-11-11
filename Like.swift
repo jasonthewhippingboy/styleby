@@ -16,14 +16,14 @@ struct Like: FirebaseType {
     let username: String
     let postIdentifier: String
     var identifier: String?
-    var endpoint: String {
+    static var endpoint: String {
         return "/posts/\(self.postIdentifier)/likes/"
     }
-    var jsonValue: [String: AnyObject] {
+    var dictionaryCopy: [String : AnyObject] {
         return [kUsername: username, kPost: postIdentifier]
     }
     
-    init?(json: [String : AnyObject], identifier: String) {
+    init?(dictionary json: [String : AnyObject], identifier: String) {
         guard let postIdentifier = json[kPost] as? String,
             let username = json[kUsername] as? String else { return nil }
         

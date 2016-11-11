@@ -6,7 +6,11 @@ target 'StyleBy...' do
   use_frameworks!
 
   # Pods for StyleBy...
-  pod 'Firebase/Core'
+pod 'Firebase/Core'
+pod 'Firebase/Database'
+pod 'Firebase/Auth'
+pod 'Firebase/Storage'
+pod 'Firebase/Messaging'
 
   target 'StyleBy...Tests' do
     inherit! :search_paths

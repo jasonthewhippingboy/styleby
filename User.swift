@@ -8,53 +8,55 @@
 
 import Foundation
 
-struct User: Equatable, FirebaseType {
+struct User: FirebaseType {
     
+    static let userKey = "user"
     private let kUsername = "username"
+    private let kFirstName = "firstName"
+    private let kLastName = "lastName"
+    private let kEmail = "email"
+    private let kPassword = "password"
     private let kBio = "bio"
     private let kURL = "url"
     
     var username = ""
+    var firstName: String
+    var lastName: String
+    var email: String
+    var password: String
     var bio: String?
     var url: String?
     var identifier: String?
-    var endpoint: String {
-        return "users"
-    }
-    var jsonValue: [String: AnyObject] {
-        var json: [String: AnyObject] = [kUsername: username]
-        
-        if let bio = bio {
-            json.updateValue(bio, forKey: kBio)
-        }
-        
-        if let url = url {
-            json.updateValue(url, forKey: kURL)
-        }
-        
-        return json
-    }
     
-    init?(json: [String: AnyObject], identifier: String) {
+    static var endpoint: String {
+        return User.userKey
+    }
+    var dictionaryCopy: [String : AnyObject] {
+        return [kUsername: username, kFirstName: firstName, kLastName: lastName, kEmail: email, kPassword: password, kBio: (bio)!, kURL: (url)!]
+        }
         
-        guard let username = json[kUsername] as? String else { return nil }
-        
+    init(username: String, firstName: String, lastName: String, email: String, password: String, bio: String, URL: String, identifier: String) {
         self.username = username
-        self.bio = json[kBio] as? String
-        self.url = json[kURL] as? String
+        self.firstName = firstName
+        self.lastName = lastName
+        self.email = email
+        self.password = password
+        self.bio = bio
+        self.url = URL
         self.identifier = identifier
     }
     
-    init(username: String, uid: String, bio: String? = nil, url: String? = nil) {
-        
+    init?(dictionary: [String: AnyObject], identifier: String) {
+        guard let username = dictionary[kUsername] as? String, firstName = dictionary[kFirstName] as? String,
+            lastName = dictionary[kLastName] as? String, email = dictionary[kEmail] as? String, password = dictionary[kPassword] as? String, bio = dictionary[kBio] as? String?, URL = dictionary[kURL] as? String?
+            else { return nil }
         self.username = username
+        self.firstName = firstName
+        self.lastName = lastName
+        self.email = email
+        self.password = password
         self.bio = bio
-        self.url = url
-        self.identifier = uid
+        self.url = URL
+        self.identifier = identifier
     }
-}
-
-func ==(lhs: User, rhs: User) -> Bool {
-    
-    return (lhs.username == rhs.username) && (lhs.identifier == rhs.identifier)
 }

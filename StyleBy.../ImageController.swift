@@ -14,7 +14,7 @@ class ImageController {
     static func uploadImage(image: UIImage, completion: (identifier: String?) -> Void) {
         
         if let base64Image = image.base64String {
-            let base = FirebaseController.base.childByAppendingPath("images").childByAutoId()
+            let base = FirebaseController.ref.child("images")
             base.setValue(base64Image)
             
             completion(identifier: base.key)
@@ -25,7 +25,7 @@ class ImageController {
     
     static func imageForIdentifier(identifier: String, completion: (image: UIImage?) -> Void) {
         
-        FirebaseController.dataAtEndpoint("images/\(identifier)") { (data) -> Void in
+        FirebaseController.endpoint("images/\(identifier)") { (data) -> Void in
             
             if let data = data as? String {
                 let image = UIImage(base64: data)

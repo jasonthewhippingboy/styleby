@@ -18,10 +18,10 @@ struct Comment: Equatable, FirebaseType {
     let text: String
     let postIdentifier: String
     var identifier: String?
-    var endpoint: String {
+    static var endpoint: String {
         return "/posts/\(postIdentifier)/comments/"
     }
-    var jsonValue: [String: AnyObject] {
+    var dictionaryCopy: [String : AnyObject] {
         return [kPost : postIdentifier, kUsername : username, kText : text]
     }
     
@@ -33,7 +33,7 @@ struct Comment: Equatable, FirebaseType {
         self.identifier = identifier
     }
     
-    init?(json: [String : AnyObject], identifier: String) {
+    init?(dictionary json: [String : AnyObject], identifier: String) {
         guard let postIdentifier = json[kPost] as? String,
             let username = json[kUsername] as? String,
             let text = json[kText] as? String else { return nil }

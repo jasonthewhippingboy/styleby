@@ -535,7 +535,7 @@
         <!--Add Photo Table View Controller-->
         <scene sceneID="T9L-37-1bP">
             <objects>
-                <tableViewController id="vJK-on-612" customClass="AddPhotoTableViewController" customModule="StyleBy___" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="AddPhotoTableViewController" id="vJK-on-612" customClass="AddPhotoTableViewController" customModule="StyleBy___" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="5Ef-AE-Kh9">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -789,35 +789,45 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pku-XW-QRQ">
-                                <rect key="frame" x="20" y="64" width="560" height="180"/>
+                                <rect key="frame" x="20" y="64" width="560" height="240"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z0L-yJ-8U9">
                                         <rect key="frame" x="0.0" y="0.0" width="560" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4d4-4A-pMW">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aZ5-Ks-8SD" userLabel="First Name Text Field">
                                         <rect key="frame" x="0.0" y="30" width="560" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sTA-Aw-3ka">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vGp-h6-h34" userLabel="Last Name Text Field">
                                         <rect key="frame" x="0.0" y="60" width="560" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                        <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Bio" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5sc-m5-hoa">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4d4-4A-pMW" userLabel="Email Text Field">
                                         <rect key="frame" x="0.0" y="90" width="560" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Website URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="01S-2a-653">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sTA-Aw-3ka">
                                         <rect key="frame" x="0.0" y="120" width="560" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Bio" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5sc-m5-hoa">
+                                        <rect key="frame" x="0.0" y="150" width="560" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Website URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="01S-2a-653">
+                                        <rect key="frame" x="0.0" y="180" width="560" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jlF-He-Pfd">
-                                        <rect key="frame" x="0.0" y="150" width="560" height="30"/>
+                                        <rect key="frame" x="0.0" y="210" width="560" height="30"/>
                                         <state key="normal" title="Action">
                                             <color key="titleColor" red="0.2325125633" green="0.56636534689999996" blue="0.098032752060000006" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
@@ -839,7 +849,9 @@
                     <connections>
                         <outlet property="actionButton" destination="jlF-He-Pfd" id="eKg-Ik-Viw"/>
                         <outlet property="bioTextField" destination="5sc-m5-hoa" id="gdz-3a-Suu"/>
-                        <outlet property="emailTextField" destination="4d4-4A-pMW" id="nyz-4h-Uh9"/>
+                        <outlet property="emailTextField" destination="aZ5-Ks-8SD" id="kVS-Fo-BJi"/>
+                        <outlet property="firstNameTextField" destination="vGp-h6-h34" id="kVy-mY-rde"/>
+                        <outlet property="lastNameTextField" destination="vGp-h6-h34" id="bgr-ew-iY5"/>
                         <outlet property="passwordTextField" destination="sTA-Aw-3ka" id="wCW-a3-f3P"/>
                         <outlet property="urlTextField" destination="01S-2a-653" id="DMN-8I-jrd"/>
                         <outlet property="usernameTextField" destination="z0L-yJ-8U9" id="7OG-Sw-dXs"/>
@@ -889,7 +901,7 @@
         <!--Fashion911 Table View Controller-->
         <scene sceneID="8VJ-wq-Dil">
             <objects>
-                <tableViewController id="MvB-U6-LTy" customClass="Fashion911TableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="Fashion911TableViewController" id="MvB-U6-LTy" customClass="Fashion911TableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Oib-qa-HnH">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -902,7 +914,7 @@
                                 <color key="titleColor" red="1" green="0.029360100779999999" blue="0.085909619869999995" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
                             <connections>
-                                <action selector="addPhotoButtonTapped" destination="MvB-U6-LTy" eventType="touchUpInside" id="FIc-2z-acU"/>
+                                <action selector="fashion911ButtonTapped" destination="MvB-U6-LTy" eventType="touchUpInside" id="DjF-lX-lLy"/>
                             </connections>
                         </button>
                         <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="uXo-Zq-9oX">
@@ -912,7 +924,7 @@
                                 <color key="titleColor" red="1" green="0.029360100779999999" blue="0.085909619869999995" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
                             <connections>
-                                <action selector="submittButtonTapped" destination="MvB-U6-LTy" eventType="touchUpInside" id="7XH-dU-HVY"/>
+                                <action selector="submitButtonTapped" destination="MvB-U6-LTy" eventType="touchUpInside" id="a2S-rc-d4i"/>
                             </connections>
                         </button>
                         <sections>
@@ -989,8 +1001,8 @@
         <image name="closet6" width="661" height="996"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="OTk-bp-MWa"/>
-        <segue reference="Hfh-pc-btU"/>
+        <segue reference="92n-4s-i1Y"/>
         <segue reference="jeG-ty-luK"/>
+        <segue reference="Hfh-pc-btU"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -65,7 +65,7 @@ class PostController {
     
     static func postFromIdentifier(identifier: String, completion: (post: Post?) -> Void) {
         
-        FirebaseController.dataAtEndpoint("posts/\(identifier)") { (data) -> Void in
+        FirebaseController.ref.child(endpoint).child("posts/\(identifier)") { (data) -> Void in
             
             if let data = data as? [String: AnyObject] {
                 let post = Post(json: data, identifier: identifier)
@@ -79,12 +79,12 @@ class PostController {
     
     static func postsForUser(user: User, completion: (posts: [Post]?) -> Void) {
         
-        FirebaseController.base.childByAppendingPath("posts").queryOrderedByChild("username").queryEqualToValue(user.username).observeSingleEventOfType(.Value, withBlock: { snapshot in
+        FirebaseController.ref.child("posts").queryOrderedByChild("username").queryEqualToValue(user.username).observeSingleEventOfType(.Value, withBlock: { snapshot in
             
             
             if let postDictionaries = snapshot.value as? [String: AnyObject] {
                 
-                let posts = postDictionaries.flatMap({Post(json: $0.1 as! [String : AnyObject], identifier: $0.0)})
+                let posts = postDictionaries.flatMap({Post(dictionary: $0.1 as! [String : AnyObject], identifier: $0.0)})
                 
                 let orderedPosts = orderPosts(posts)
                 

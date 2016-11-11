@@ -37,6 +37,9 @@
 		ED765D721DA015EF00A86426 /* PostDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED765D711DA015EF00A86426 /* PostDetailTableViewController.swift */; };
 		ED765D741DA0168400A86426 /* StyleByTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED765D731DA0168400A86426 /* StyleByTableViewController.swift */; };
 		EDEF9D0F1DC2E38B005D3A72 /* GoogleService-info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EDEF9D0E1DC2E38B005D3A72 /* GoogleService-info.plist */; };
+		EDF8729B1DC52DCA00368919 /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF8729A1DC52DCA00368919 /* FirebaseController.swift */; };
+		EDF8729F1DC5347100368919 /* Fashion911.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF8729E1DC5347100368919 /* Fashion911.swift */; };
+		EDF872A11DC5366500368919 /* Fashion911Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF872A01DC5366500368919 /* Fashion911Controller.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +100,9 @@
 		ED765D711DA015EF00A86426 /* PostDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailTableViewController.swift; sourceTree = "<group>"; };
 		ED765D731DA0168400A86426 /* StyleByTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleByTableViewController.swift; sourceTree = "<group>"; };
 		EDEF9D0E1DC2E38B005D3A72 /* GoogleService-info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-info.plist"; path = "../../../../Downloads/GoogleService-info.plist"; sourceTree = "<group>"; };
+		EDF8729A1DC52DCA00368919 /* FirebaseController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
+		EDF8729E1DC5347100368919 /* Fashion911.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fashion911.swift; sourceTree = "<group>"; };
+		EDF872A01DC5366500368919 /* Fashion911Controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fashion911Controller.swift; sourceTree = "<group>"; };
 		F2A06CD468AE1F06049F4E3E /* Pods-StyleBy....debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StyleBy....debug.xcconfig"; path = "Pods/Target Support Files/Pods-StyleBy.../Pods-StyleBy....debug.xcconfig"; sourceTree = "<group>"; };
 		F4284DFD829861A597FE4D5E /* Pods_StyleBy___Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Pods_StyleBy___Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -232,6 +238,7 @@
 				ED1E9FC11D9B54260078AEA3 /* User.swift */,
 				ED1E9FC31D9B545D0078AEA3 /* Like.swift */,
 				ED1E9FC51D9B54B60078AEA3 /* Post.swift */,
+				EDF8729E1DC5347100368919 /* Fashion911.swift */,
 			);
 			name = Model;
 			path = ..;
@@ -262,6 +269,8 @@
 				ED1E9FCA1D9B55C40078AEA3 /* UserController.swift */,
 				ED1E9FCC1D9B58010078AEA3 /* PostController.swift */,
 				ED1E9FCE1D9B58540078AEA3 /* ImageController.swift */,
+				EDF8729A1DC52DCA00368919 /* FirebaseController.swift */,
+				EDF872A01DC5366500368919 /* Fashion911Controller.swift */,
 			);
 			name = "Model Controllers";
 			sourceTree = "<group>";
@@ -540,15 +549,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED765D601DA00ECD00A86426 /* PostTableViewCell.swift in Sources */,
+				EDF8729B1DC52DCA00368919 /* FirebaseController.swift in Sources */,
 				ED1E9FC21D9B54260078AEA3 /* User.swift in Sources */,
 				ED765D6A1DA012F800A86426 /* AddPhotoTableViewController.swift in Sources */,
 				ED765D661DA010BC00A86426 /* LoginSignupViewController.swift in Sources */,
 				ED666CDE1DC0432C002EE979 /* Fashion911TableViewController.swift in Sources */,
+				EDF8729F1DC5347100368919 /* Fashion911.swift in Sources */,
 				ED1E9F851D96F2850078AEA3 /* ViewController.swift in Sources */,
 				ED1E9FCB1D9B55C40078AEA3 /* UserController.swift in Sources */,
 				ED765D741DA0168400A86426 /* StyleByTableViewController.swift in Sources */,
 				ED1E9FC01D9B53DA0078AEA3 /* Comment.swift in Sources */,
 				ED765D6C1DA0137A00A86426 /* ProfileViewController.swift in Sources */,
+				EDF872A11DC5366500368919 /* Fashion911Controller.swift in Sources */,
 				ED765D621DA00F4400A86426 /* ImageCollectionViewCell.swift in Sources */,
 				ED765D721DA015EF00A86426 /* PostDetailTableViewController.swift in Sources */,
 				ED765D6E1DA013D900A86426 /* UserSearchTableViewController.swift in Sources */,

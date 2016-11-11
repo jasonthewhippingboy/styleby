@@ -21,6 +21,8 @@ class LoginSignupViewController: UIViewController {
     @IBOutlet weak var bioTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var lastNameTextField: UITextField!
+    @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
     
     var viewMode = ViewMode.Signup
@@ -30,7 +32,7 @@ class LoginSignupViewController: UIViewController {
             case .Login:
                 return !(emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty)
             case .Signup:
-                return !(usernameTextField.text!.isEmpty || emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty)
+                return !(usernameTextField.text!.isEmpty || firstNameTextField.text!.isEmpty || lastNameTextField.text!.isEmpty || emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty)
             case .Edit:
                 return !(usernameTextField.text!.isEmpty)
             }
@@ -56,7 +58,9 @@ class LoginSignupViewController: UIViewController {
     func updateViewBasedOnMode() {
         switch viewMode {
         case .Login:
-            usernameTextField.hidden = true
+            firstNameTextField.hidden = true
+            lastNameTextField.hidden = true
+            emailTextField.hidden = true
             bioTextField.hidden = true
             urlTextField.hidden = true
             
@@ -72,6 +76,8 @@ class LoginSignupViewController: UIViewController {
             if let user = self.user {
                 
                 usernameTextField.text = user.username
+                firstNameTextField.text = user.firstName
+                lastNameTextField.text = user.lastName
                 bioTextField.text = user.bio
                 urlTextField.text = user.url
                 
@@ -89,7 +95,7 @@ class LoginSignupViewController: UIViewController {
         if fieldsAreValid {
             switch viewMode {
             case .Login:
-                UserController.authenticateUser(emailTextField.text!, password: passwordTextField.text!, completion: { (success, user) -> Void in
+                UserController.authenticateUser(usernameTextField.text!, password: passwordTextField.text!, completion: { (success, user) -> Void in
                     if success, let _ = user {
                         self.dismissViewControllerAnimated(true, completion: nil)
                     } else {
@@ -97,7 +103,7 @@ class LoginSignupViewController: UIViewController {
                     }
                 })
             case .Signup:
-                UserController.createUser(emailTextField.text!, username: usernameTextField.text!, password: passwordTextField.text!, bio: bioTextField.text, url: urlTextField.text, completion: { (success, user) -> Void in
+                UserController.createUser(username: usernameTextField.text!, firstName: firstNameTextField.text!, lastName: lastNameTextField.text!, emailTextField.text!, password: passwordTextField.text!, bio: bioTextField.text, url: urlTextField.text, completion: { (success, user) -> Void in
                     if success, let _ = user {
                         self.dismissViewControllerAnimated(true, completion: nil)
                     } else {
@@ -105,7 +111,7 @@ class LoginSignupViewController: UIViewController {
                     }
                 })
             case .Edit:
-                UserController.updateUser(self.user!, username: self.usernameTextField.text!, bio: self.bioTextField.text, url: self.urlTextField.text, completion: { (success, user) -> Void in
+                UserController.updateUser(self.user!, username: self.usernameTextField.text!, firstName: self.firstNameTextField.text, lastName: self.lastNameTextField.text, bio: self.bioTextField.text, url: self.urlTextField.text, completion: { (success, user) -> Void in
                     
                     if success {
                         self.dismissViewControllerAnimated(true, completion: nil)
