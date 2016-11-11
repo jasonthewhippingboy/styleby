@@ -17,15 +17,15 @@ struct Comment: Equatable, FirebaseType {
     let username: String
     let text: String
     let postIdentifier: String
-    var identifier: String?
-    static var endpoint: String {
+    var identifier: String
+    var endpoint: String {
         return "/posts/\(postIdentifier)/comments/"
     }
     var dictionaryCopy: [String : AnyObject] {
         return [kPost : postIdentifier, kUsername : username, kText : text]
     }
     
-    init(username: String, text: String, postIdentifier: String, identifier: String? = nil) {
+    init(username: String, text: String, postIdentifier: String, identifier: String) {
         
         self.username = username
         self.text = text

@@ -15,7 +15,6 @@ struct User: FirebaseType {
     private let kFirstName = "firstName"
     private let kLastName = "lastName"
     private let kEmail = "email"
-    private let kPassword = "password"
     private let kBio = "bio"
     private let kURL = "url"
     
@@ -23,24 +22,25 @@ struct User: FirebaseType {
     var firstName: String
     var lastName: String
     var email: String
-    var password: String
     var bio: String?
     var url: String?
-    var identifier: String?
+    var identifier: String
     
-    static var endpoint: String {
+    var endpoint: String {
         return User.userKey
     }
+    var identifiedEndpoint: String {
+        return "\(endpoint)/\(identifier)"
+    }
     var dictionaryCopy: [String : AnyObject] {
-        return [kUsername: username, kFirstName: firstName, kLastName: lastName, kEmail: email, kPassword: password, kBio: (bio)!, kURL: (url)!]
+        return [kUsername: username, kFirstName: firstName, kLastName: lastName, kEmail: email, kBio: (bio)!, kURL: (url)!]
         }
         
-    init(username: String, firstName: String, lastName: String, email: String, password: String, bio: String, URL: String, identifier: String) {
+    init(username: String, firstName: String, lastName: String, email: String, bio: String? = nil, URL: String? = nil, identifier: String) {
         self.username = username
         self.firstName = firstName
         self.lastName = lastName
         self.email = email
-        self.password = password
         self.bio = bio
         self.url = URL
         self.identifier = identifier
@@ -48,13 +48,12 @@ struct User: FirebaseType {
     
     init?(dictionary: [String: AnyObject], identifier: String) {
         guard let username = dictionary[kUsername] as? String, firstName = dictionary[kFirstName] as? String,
-            lastName = dictionary[kLastName] as? String, email = dictionary[kEmail] as? String, password = dictionary[kPassword] as? String, bio = dictionary[kBio] as? String?, URL = dictionary[kURL] as? String?
+            lastName = dictionary[kLastName] as? String, email = dictionary[kEmail] as? String, bio = dictionary[kBio] as? String?, URL = dictionary[kURL] as? String?
             else { return nil }
         self.username = username
         self.firstName = firstName
         self.lastName = lastName
         self.email = email
-        self.password = password
         self.bio = bio
         self.url = URL
         self.identifier = identifier

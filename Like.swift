@@ -16,7 +16,7 @@ struct Like: FirebaseType {
     let username: String
     let postIdentifier: String
     var identifier: String?
-    static var endpoint: String {
+    var endpoint: String {
         return "/posts/\(self.postIdentifier)/likes/"
     }
     var dictionaryCopy: [String : AnyObject] {

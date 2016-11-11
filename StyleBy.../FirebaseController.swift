@@ -15,8 +15,8 @@ struct FirebaseController {
 }
 
 protocol FirebaseType {
-    static var endpoint: String {get}
-    var identifier: String? {get set}
+    var endpoint: String {get}
+    var identifier: String {get set}
     var dictionaryCopy: [String: AnyObject] {get}
     
     init?(dictionary: [String: AnyObject], identifier: String)
@@ -28,7 +28,7 @@ protocol FirebaseType {
 extension FirebaseType {
     
     mutating func save() {
-        var newEndpoint = FirebaseController.ref.child(Self.endpoint)
+        var newEndpoint = FirebaseController.ref.child(endpoint)
         if let identifier = identifier {
             newEndpoint = newEndpoint.child(identifier)
         } else {

@@ -28,7 +28,7 @@ class Post: Equatable, FirebaseType {
     let comments: [Comment]
     let likes: [Like]
     var identifier: String?
-    static var endpoint: String {
+    var endpoint: String {
         return "posts"
     }
     var dictionaryCopy: [String: AnyObject] {

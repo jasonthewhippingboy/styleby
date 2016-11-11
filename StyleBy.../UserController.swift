@@ -40,7 +40,7 @@ class UserController {
     static let sharedController = UserController()
     
     static func userForIdentifier(identifier: String, completion: (user: User?) -> Void) {
-        FirebaseController.ref.child(User.endpoint).observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+        FirebaseController.ref.child(User.userKey).child(identifier).observeSingleEventOfType(.Value, withBlock: { (snapshot) in
             // TODO: Parse snapshot data
 //            if let json = data as? [String: AnyObject] {
 //                let user = User(json: json, identifier: identifier)
@@ -52,7 +52,7 @@ class UserController {
     }
     
     static func fetchAllUsers(completion: (users: [User]) -> Void) {
-        FirebaseController.ref.child(User.endpoint).queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: { snapshot in
+        FirebaseController.ref.child(User.userKey).queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: { snapshot in
             // TODO: Parse snapshot data
 //            if let json = data as? [String: AnyObject] {
 //                
@@ -68,21 +68,21 @@ class UserController {
     
     static func followUser(user: User, completion: (success: Bool) -> Void) {
         
-        FirebaseController.ref.child("/users/\(sharedController.currentUser.identifier!)/follows/\(user.identifier!)").setValue(true)
+        FirebaseController.ref.child("\(sharedController.currentUser.identifiedEndpoint)/follows/\(user.identifier)").setValue(true)
         
         completion(success: true)
     }
     
     static func unfollowUser(user: User, completion: (success: Bool) -> Void) {
         
-        FirebaseController.ref.child("/users/\(sharedController.currentUser.identifier!)/follows/\(user.identifier!)").removeValue()
+        FirebaseController.ref.child("\(sharedController.currentUser.identifiedEndpoint)/follows/\(user.identifier)").removeValue()
         
         completion(success: true)
     }
     
     static func userFollowsUser(user: User, followsUser: User, completion: (follows: Bool) -> Void ) {
         
-        FirebaseController.ref.child("/users/\(user.identifier!)/follows/\(followsUser.identifier!)").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+        FirebaseController.ref.child("\(user.identifiedEndpoint)/follows/\(followsUser.identifier)").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
             // TODO: Parse snapshot data
 //            if let _ = data {
 //                completion(follows: true)
@@ -119,15 +119,12 @@ class UserController {
     
     static func authenticateUser(email: String, password: String, completion: (success: Bool, user: User?) -> Void) {
         
-        
-        FirebaseController.ref.child(email: String, password: String) { (error, response) -> Void in
+        FIRAuth.auth()?.signInWithEmail(email, password: password, completion: { (user, error) in
+            // TODO: Parse signed in user
             
-            if error != nil {
-                print("Unsuccessful login attempt.")
-                completion(success: false, user: nil)
-            } else {
-                print("User ID: \(response.uid) authenticated successfully.")
-                UserController.userForIdentifier(response.uid, completion: { (user) -> Void in
+            if let user = user where error == nil {
+                print("User ID: \(user.uid) authenticated successfully.")
+                UserController.userForIdentifier(user.uid, completion: { (user) -> Void in
                     
                     if let user = user {
                         sharedController.currentUser = user
@@ -135,46 +132,38 @@ class UserController {
                     
                     completion(success: true, user: user)
                 })
+            } else {
+                print("Unsuccessful login attempt.")
+                completion(success: false, user: nil)
             }
-        }
+        })
     }
     
     static func createUser(firstName: String, lastName: String, email: String, username: String, password: String, bio: String?, url: String?, completion: (success: Bool, user: User?) -> Void) {
         
-        FirebaseController.ref.child(email, password: password) { (error, response) -> Void in
-            
-            if let uid = response["uid"] as? String {
-                var user = User(username: username, uid: uid, bio: bio, url: url)
+        FIRAuth.auth()?.createUserWithEmail(email, password: password, completion: { (user, error) in
+            if let user = user where error == nil {
+                var user = User(username: username, firstName: firstName, lastName: lastName, email: email, bio: bio, URL: url, identifier: user.uid)
                 user.save()
-                
-                authenticateUser(email, password: password, completion: { (success, user) -> Void in
-                    completion(success: success, user: user)
-                })
-            } else {
-                completion(success: false, user: nil)
-            }
-        }
-    }
-    
-    static func updateUser(user: User, username: String, bio: String?, url: String?, completion: (success: Bool, user: User?) -> Void) {
-        var updatedUser = User(dictionaryCopy, identifier: username)
-        updatedUser.save()
-        
-        UserController.userForIdentifier(user.identifier!) { (user) -> Void in
-            
-            if let user = user {
-                sharedController.currentUser = user
                 completion(success: true, user: user)
             } else {
                 completion(success: false, user: nil)
             }
-        }
+        })
+    }
+    
+    static func updateUser(user: User, username: String, bio: String?, url: String?, completion: (success: Bool, user: User?) -> Void) {
+        var updatedUser = user
+        updatedUser.username = username
+        updatedUser.bio = bio
+        updatedUser.url = url
+        updatedUser.save()
     }
     
     static func logoutCurrentUser() {
-        FirebaseController.ref.child(newEndpoint).key
+        _ = try? FIRAuth.auth()?.signOut()
         UserController.sharedController.currentUser = nil
-}
+    }
     
 /*    static func mockUsers() -> [User] {
         
