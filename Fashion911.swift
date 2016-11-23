@@ -12,14 +12,14 @@ struct Fashion911: Equatable, FirebaseType {
     
     private let kUsername = "username"
     private let kImageEndpoint = "image"
-    private let kwhatsYourEmergency = "whatsYourEmergency"
-    private let kComments = "comments"
+    private let kWhatsYourEmergency = "whatsYourEmergency"
+    private let kFashion911Comment = "fashion911comment"
     private let kLikes = "likes"
     private let kIdentifier = "identifier"
     
     let whatsYourEmergency: String?
     let username: String
-    let comments: [Comment]
+    let fashion911comment: [Fashion911Comment]
     let likes: [Like]
     var identifier: String?
     var endpoint: String {
@@ -31,34 +31,34 @@ struct Fashion911: Equatable, FirebaseType {
         return "images/\(identifier)"
     }
     var dictionaryCopy: [String : AnyObject] {
-        var dictionaryCopy: [String: AnyObject] = [kUsername : username, kImageEndpoint : imageEndpoint, kComments : comments.map { $0.dictionaryCopy }, kLikes : likes.map { $0.dictionaryCopy }]
+        var dictionaryCopy: [String: AnyObject] = [kUsername : username, kImageEndpoint : imageEndpoint, kFashion911Comment : fashion911comment.map { $0.dictionaryCopy }, kLikes : likes.map { $0.dictionaryCopy }]
         
         if let whatsYourEmergency = whatsYourEmergency {
-            dictionaryCopy.updateValue(whatsYourEmergency, forKey: kwhatsYourEmergency)
+            dictionaryCopy.updateValue(whatsYourEmergency, forKey: kWhatsYourEmergency)
         }
         
         return dictionaryCopy
     }
     
-    init(whatsYourEmergency: String?, username: String = "", comments: [Comment] = [], likes: [Like] = [], identifier: String? = nil) {
+    init(whatsYourEmergency: String?, username: String = "", fashion911comment: [Fashion911Comment] = [], likes: [Like] = [], identifier: String? = nil) {
         
-        self.whatsYourEmergency = kwhatsYourEmergency
+        self.whatsYourEmergency = kWhatsYourEmergency
         self.username = username
-        self.comments = comments
+        self.fashion911comment = fashion911comment
         self.likes = likes
     }
     
     init?(dictionary json: [String : AnyObject], identifier: String) {
         guard let username = json[kUsername] as? String else { return nil }
         
-        self.whatsYourEmergency = json[kwhatsYourEmergency] as? String
+        self.whatsYourEmergency = json[kWhatsYourEmergency] as? String
         self.username = username
         self.identifier = identifier
         
-        if let commentDictionaries = json[kComments] as? [String: AnyObject] {
-            self.comments = commentDictionaries.flatMap({Comment(dictionary: $0.1 as! [String : AnyObject], identifier: $0.0)})
+        if let fashion911commentDictionaries = json[kFashion911Comment] as? [String: AnyObject] {
+            self.fashion911comment = fashion911commentDictionaries.flatMap({Fashion911Comment(dictionary: $0.1 as! [String : AnyObject], identifier: $0.0)})
         } else {
-            self.comments = []
+            self.fashion911comment = []
         }
         
         if let likeDictionaries = json[kLikes] as? [String: AnyObject] {

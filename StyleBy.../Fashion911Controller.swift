@@ -115,7 +115,7 @@ class Fashion911Controller {
         
     }
     
-    static func addCommentWithTextToFashion911(text: String, fashion911: Fashion911, completion: (success: Bool, fashion911: Fashion911?) -> Void?) {
+    static func addFashion911CommentWithTextToFashion911(text: String, fashion911: Fashion911, completion: (success: Bool, fashion911: Fashion911?) -> Void?) {
         if let fashion911Identifier = fashion911.identifier {
             
             guard let currentUser = UserController.sharedController.currentUser else {
@@ -123,10 +123,10 @@ class Fashion911Controller {
                 return
             }
             
-            var comment = Comment(username: currentUser.username, text: text, fashion911: fashion911Identifier)
-            comment.save()
+            var fashion911comment = Fashion911Comment(username: currentUser.username, text: text, fashion911Identifier: fashion911Identifier)
+            fashion911comment.save()
             
-            Fashion911Controller.fashion911FromIdentifier(comment.fashion911Identifier) { (fashion911) -> Void in
+            Fashion911Controller.fashion911FromIdentifier(fashion911comment.fashion911Identifier) { (fashion911) -> Void in
                 completion(success: true, fashion911: fashion911)
             }
         } else {
@@ -138,19 +138,19 @@ class Fashion911Controller {
                 completion(success: false, fashion911: nil)
                 return
             }
-            var Comment = Comment(username: currentUser.username, text: text, fashion911Identifier: fashion911.identifier!)
-            comment.save()
+            var fashion911Comment = Fashion911Comment(username: currentUser.username, text: text, fashion911Identifier: fashion911.identifier!)
+            fashion911Comment.save()
             
-            Fashion911Controller.fashion911FromIdentifier(comment.fashion911Identifier) { (fashion911) -> Void in
+            Fashion911Controller.fashion911FromIdentifier(fashion911Comment.fashion911Identifier) { (fashion911) -> Void in
                 completion(success: true, fashion911: fashion911)
             }
         }
     }
     
-    static func deleteComment(comment: Comment, completion: (success: Bool, fashion911: Fashion911?) -> Void) {
-        comment.delete()
+    static func deleteFashion911Comment(fashion911comment: Fashion911Comment, completion: (success: Bool, fashion911: Fashion911?) -> Void) {
+        fashion911comment.delete()
         
-        Fashion911Controller.fashion911FromIdentifier(comment.fashion911Identifier) { (fashion911) -> Void in
+        Fashion911Controller.fashion911FromIdentifier(fashion911comment.fashion911Identifier) { (fashion911) -> Void in
             completion(success: true, fashion911: fashion911)
         }
     }

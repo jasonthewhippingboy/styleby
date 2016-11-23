@@ -73,7 +73,7 @@ class Fashion911TableViewController: UITableViewController, UIImagePickerControl
             
             //Fashion911 IMAGE
             
-           PostController.addPost(image, whatsYourEmergency: self.whatsYourEmergency, completion: { (success, fashion911) -> Void in
+           Fashion911Controller.addFashion911(image, whatsYourEmergency: self.whatsYourEmergency, completion: { (success, fashion911) -> Void in
                 if fashion911 != nil {
                     self.dismissViewControllerAnimated(true, completion: nil)
                 } else {
