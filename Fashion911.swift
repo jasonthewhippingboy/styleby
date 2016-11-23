@@ -15,15 +15,20 @@ struct Fashion911: Equatable, FirebaseType {
     private let kwhatsYourEmergency = "whatsYourEmergency"
     private let kComments = "comments"
     private let kLikes = "likes"
+    private let kIdentifier = "identifier"
     
-    let imageEndpoint: String
     let whatsYourEmergency: String?
     let username: String
     let comments: [Comment]
     let likes: [Like]
     var identifier: String?
     var endpoint: String {
-        return "posts"
+        return "fashion911"
+    }
+    
+    var imageEndpoint: String {
+        guard let identifier = identifier else { return "" }
+        return "images/\(identifier)"
     }
     var dictionaryCopy: [String : AnyObject] {
         var dictionaryCopy: [String: AnyObject] = [kUsername : username, kImageEndpoint : imageEndpoint, kComments : comments.map { $0.dictionaryCopy }, kLikes : likes.map { $0.dictionaryCopy }]
@@ -35,9 +40,8 @@ struct Fashion911: Equatable, FirebaseType {
         return dictionaryCopy
     }
     
-    init(imageEndpoint: String, whatsYourEmergency: String?, username: String = "", comments: [Comment] = [], likes: [Like] = [], identifier: String? = nil) {
+    init(whatsYourEmergency: String?, username: String = "", comments: [Comment] = [], likes: [Like] = [], identifier: String? = nil) {
         
-        self.imageEndpoint = imageEndpoint
         self.whatsYourEmergency = kwhatsYourEmergency
         self.username = username
         self.comments = comments
@@ -45,10 +49,8 @@ struct Fashion911: Equatable, FirebaseType {
     }
     
     init?(dictionary json: [String : AnyObject], identifier: String) {
-        guard let imageEndpoint = json[kImageEndpoint] as? String,
-            let username = json[kUsername] as? String else { return nil }
+        guard let username = json[kUsername] as? String else { return nil }
         
-        self.imageEndpoint = imageEndpoint
         self.whatsYourEmergency = json[kwhatsYourEmergency] as? String
         self.username = username
         self.identifier = identifier

@@ -18,8 +18,8 @@ class Post: Equatable, FirebaseType {
     private let kAccessoriesBy = "accessories"
     private let kComments = "comments"
     private let kLikes = "likes"
+    private let kIdentifier = "identifier"
     
-    let imageEndpoint: String
     let topBy: String?
     let bottomBy: String?
     let shoesBy: String?
@@ -31,8 +31,14 @@ class Post: Equatable, FirebaseType {
     var endpoint: String {
         return "posts"
     }
+    
+    var imageEndpoint: String {
+        guard let identifier = identifier else { return "" }
+        return "images/\(identifier)"
+    }
+    
     var dictionaryCopy: [String: AnyObject] {
-        var dictionaryCopy: [String: AnyObject] = [kUsername : username, kImageEndpoint : imageEndpoint, kComments : comments.map { $0.dictionaryCopy }, kLikes : likes.map { $0.dictionaryCopy }]
+        var dictionaryCopy: [String: AnyObject] = [kUsername : username, kComments : comments.map { $0.dictionaryCopy }, kLikes : likes.map { $0.dictionaryCopy }]
         
         if let topBy = topBy {
             dictionaryCopy.updateValue(topBy, forKey: kTopBy)
@@ -49,9 +55,8 @@ class Post: Equatable, FirebaseType {
         return dictionaryCopy
     }
     
-    init(imageEndpoint: String, topBy: String?, bottomBy: String?, shoesBy: String?, accessoriesBy: String?, username: String = "", comments: [Comment] = [], likes: [Like] = [], identifier: String? = nil) {
+    init(topBy: String?, bottomBy: String?, shoesBy: String?, accessoriesBy: String?, username: String = "", comments: [Comment] = [], likes: [Like] = [], identifier: String? = nil) {
         
-        self.imageEndpoint = imageEndpoint
         self.topBy = topBy
         self.bottomBy = bottomBy
         self.shoesBy = shoesBy
@@ -62,10 +67,8 @@ class Post: Equatable, FirebaseType {
     }
     
     required init?(dictionary json: [String : AnyObject], identifier: String) {
-        guard let imageEndpoint = json[kImageEndpoint] as? String,
-            let username = json[kUsername] as? String else { return nil }
+        guard let username = json[kUsername] as? String else { return nil }
         
-        self.imageEndpoint = imageEndpoint
         self.topBy = json[kTopBy] as? String
         self.bottomBy = json[kBottomBy] as? String
         self.shoesBy = json[kShoesBy] as? String

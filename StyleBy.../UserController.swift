@@ -13,21 +13,38 @@ class UserController {
     
     private let kUser = "userKey"
     
-    var currentUser: User! {
-        get {
-            guard let userDictionary = NSUserDefaults.standardUserDefaults().valueForKey(kUser) as? [String: AnyObject] else {
-                    
-                    return nil
+    func fetchUserData(identifier: String, completion: (user: User?) -> Void) {
+        
+        let userRef = FirebaseController.ref.child("users").child(identifier)
+        userRef.observeSingleEventOfType(.Value, withBlock:  { (snapshot) in
+            // Retrieve the results from the returned snapshot
+            guard let userDictionary = snapshot.value as? [String: String] else {
+                completion(user: nil)
+                return
             }
-            // TODO: Actually get identifier to create user
-            return User(dictionary: userDictionary, identifier: "uid")
+            let user = User(dictionary: userDictionary, identifier: identifier)
+            completion(user: user)
+            
+            return
+            
+        })
+    }
+    var currentUser: User? {
+        get {
+            
+            
+            guard let userDictionary = NSUserDefaults.standardUserDefaults().valueForKey(kUser) as? [String: AnyObject],
+            let userId = FIRAuth.auth()?.currentUser?.uid else {
+                return nil
+            }
+            
+            return User(dictionary: userDictionary, identifier: userId)
         }
         
         set {
             
-            if newValue != nil {
-                // TODO: Finish actually saving to user defaults
-                NSUserDefaults.standardUserDefaults()
+            if let newValue = newValue {
+                NSUserDefaults.standardUserDefaults().setValue(newValue.dictionaryCopy, forKey: kUser)
                 NSUserDefaults.standardUserDefaults().synchronize()
             } else {
                 NSUserDefaults.standardUserDefaults().removeObjectForKey(kUser)
@@ -37,83 +54,93 @@ class UserController {
     }
     
     
+    
+    
     static let sharedController = UserController()
     
     static func userForIdentifier(identifier: String, completion: (user: User?) -> Void) {
         FirebaseController.ref.child(User.userKey).child(identifier).observeSingleEventOfType(.Value, withBlock: { (snapshot) in
-            // TODO: Parse snapshot data
-//            if let json = data as? [String: AnyObject] {
-//                let user = User(json: json, identifier: identifier)
-//                completion(user: user)
-//            } else {
-//                completion(user: nil)
-//            }
+            guard let userDictionary = snapshot.value as? [String: String] else {
+                completion(user: nil)
+                return
+            }
+            // Create a user object with the data returned
+            let user = User(dictionary: userDictionary, identifier: identifier)
+            completion(user: user)
         })
     }
     
-    static func fetchAllUsers(completion: (users: [User]) -> Void) {
+    static func fetchAllUsers(completion: (users: [User]?) -> Void) {
         FirebaseController.ref.child(User.userKey).queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: { snapshot in
-            // TODO: Parse snapshot data
-//            if let json = data as? [String: AnyObject] {
-//                
-//                let users = json.flatMap({User(json: $0.1 as! [String : AnyObject], identifier: $0.0)})
-//                
-//                completion(users: users)
-//                
-//            } else {
-//                completion(users: [])
-//            }
+            guard let userDictionary = snapshot.value as? [User] else {
+                completion(users: nil)
+                return
+            }
+            let user = userDictionary
+            completion(users: user)
+            //            }
         })
     }
     
-    static func followUser(user: User, completion: (success: Bool) -> Void) {
+    func followUser(user: User, completion: (success: Bool) -> Void) {
         
-        FirebaseController.ref.child("\(sharedController.currentUser.identifiedEndpoint)/follows/\(user.identifier)").setValue(true)
+        guard let currentUser = currentUser else {
+            completion(success: false)
+            return
+        }
         
-        completion(success: true)
-    }
-    
-    static func unfollowUser(user: User, completion: (success: Bool) -> Void) {
-        
-        FirebaseController.ref.child("\(sharedController.currentUser.identifiedEndpoint)/follows/\(user.identifier)").removeValue()
+        FirebaseController.ref.child("\(currentUser.identifiedEndpoint)/follows/\(user.identifier)").setValue(true)
         
         completion(success: true)
     }
     
-    static func userFollowsUser(user: User, followsUser: User, completion: (follows: Bool) -> Void ) {
+    
+    func unfollowUser(user: User, completion: (success: Bool) -> Void) {
+        
+        guard let currentUser = currentUser else {
+            completion(success: false)
+            return
+        }
+        
+        FirebaseController.ref.child("\(currentUser.identifiedEndpoint)/follows/\(user.identifier)").removeValue()
+        
+        completion(success: true)
+    }
+    
+    func userFollowsUser(user: User, followsUser: User, completion: (follows: String?) -> Void ) {
         
         FirebaseController.ref.child("\(user.identifiedEndpoint)/follows/\(followsUser.identifier)").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
-            // TODO: Parse snapshot data
-//            if let _ = data {
-//                completion(follows: true)
-//            } else {
-//                completion(follows: false)
-//            }
+            guard let followsDictionary = snapshot.value as? String else {
+                completion(follows: nil)
+                return
+            }
+            let follows = followsDictionary
+            completion(follows: follows)
         })
     }
     
-    static func followedByUser(user: User, completion: (followed: [User]?) -> Void) {
+    func followedByUser(user: User, completion: (followed: [User]?) -> Void) {
         
-//        FirebaseController.newEndpoint("/users/\(user.identifier!)/follows/") { (data) -> Void in
-//            
-//            if let json = data as? [String: AnyObject] {
-//                
-//                var users: [User] = []
-//                
-//                for userJson in json {
-//                    
-//                    userForIdentifier(userJson.0, completion: { (user) -> Void in
-//                        
-//                        if let user = user {
-//                            users.append(user)
-//                            completion(followed: users)
-//                        }
-//                    })
-//                }
-//            } else {
-//                completion(followed: [])
-//            }
-//        }
+        //        FirebaseController.newEndpoint("/users/\(user.identifier!)/follows/") { (data) -> Void in
+        //
+        //            if let json = data as? [String: AnyObject] {
+        //
+        //                var users: [User] = []
+        //
+        //                for userJson in json {
+        //
+        //                    userForIdentifier(userJson.0, completion: { (user) -> Void in
+        //
+        //                        if let user = user {
+        //                            users.append(user)
+        //                            completion(followed: users)
+        //                        }
+        //                    })
+        //                }
+        //            } else {
+        //                completion(followed: [])
+        //            }
+        //        }
         
     }
     
@@ -167,16 +194,15 @@ class UserController {
         UserController.sharedController.currentUser = nil
     }
     
-/*    static func mockUsers() -> [User] {
-        
-        let user1 = User(username: "drvenkman", uid: "1234")
-        let user2 = User(username: "drspengler", uid: "2356")
-        let user3 = User(username: "drstantz: "3456")
-        let user4 = User(username: "winstonzeddemore", uid: "4567", bio: "Ghostbuster", url: "iaintfraidofnoghost.com")
-        
-        return [user1, user2, user3, user4]
-    }
- */
-
-
+    /*    static func mockUsers() -> [User] {
+     
+     let user1 = User(username: "drvenkman", uid: "1234")
+     let user2 = User(username: "drspengler", uid: "2356")
+     let user3 = User(username: "drstantz: "3456")
+     let user4 = User(username: "winstonzeddemore", uid: "4567", bio: "Ghostbuster", url: "iaintfraidofnoghost.com")
+     
+     return [user1, user2, user3, user4]
+     }
+     */
+    
 }

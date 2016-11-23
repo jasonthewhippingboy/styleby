@@ -112,17 +112,21 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, Profi
             tabBarController?.selectedViewController = tabBarController?.viewControllers![0]
             
         } else {
-            UserController.userFollowsUser(UserController.sharedController.currentUser, followsUser: user) { (follows) -> Void in
+            
+            guard let currentUser = UserController.sharedController.currentUser else {
+                return
+            }
+            UserController.sharedController.userFollowsUser(currentUser, followsUser: user) { (follows) -> Void in
                 
-                if follows {
-                    UserController.unfollowUser(self.user!, completion: { (success) -> Void in
+                if (follows != nil) {
+                    UserController.sharedController.unfollowUser(self.user!, completion: { (success) -> Void in
                         
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             self.updateBasedOnUser()
                         })
                     })
                 } else {
-                    UserController.followUser(self.user!, completion: { (success) -> Void in
+                    UserController.sharedController.followUser(self.user!, completion: { (success) -> Void in
                         
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             self.updateBasedOnUser()

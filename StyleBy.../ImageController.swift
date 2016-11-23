@@ -11,28 +11,27 @@ import UIKit
 
 class ImageController {
     
-    static func uploadImage(image: UIImage, completion: (identifier: String?) -> Void) {
+    static func uploadImage(image: UIImage, identifier: String, completion: (success: Bool) -> Void) {
         
         if let base64Image = image.base64String {
             let base = FirebaseController.ref.child("images")
-            base.setValue(base64Image)
+            base.child(identifier).setValue(base64Image, withCompletionBlock: { (error, ref) in
+                guard error == nil else { completion(success: false); return }
+                completion(success: true)
+            })
             
-            completion(identifier: base.key)
-        } else {
-            completion(identifier: nil)
         }
     }
     
     static func imageForIdentifier(identifier: String, completion: (image: UIImage?) -> Void) {
         
         FirebaseController.ref.child("images/\(identifier)").observeSingleEventOfType(.Value, withBlock: { snapshot in
-            // TODO: Parse snapshot as image data
-//            if let data = data as? String {
-//                let image = UIImage(base64: data)
-//                completion(image: image)
-//            } else {
-//                completion(image: nil)
-//            }
+            guard let base64String = snapshot.value as? String else {
+                completion(image: nil)
+                return
+            }
+          let image = UIImage(base64: base64String)
+            completion (image: image)
         })
     }
 }

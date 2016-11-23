@@ -9,7 +9,7 @@
         <!--View Controller-->
         <scene sceneID="3UW-j4-29p">
             <objects>
-                <viewController id="6nk-lA-TQZ" sceneMemberID="viewController">
+                <viewController id="6nk-lA-TQZ" customClass="ViewController" customModule="StyleBy___" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="IAc-rc-qC4"/>
                         <viewControllerLayoutGuide type="bottom" id="DRw-wT-TDY"/>
@@ -43,7 +43,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="mvk-X1-XTf">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="mvk-X1-XTf">
                                 <rect key="frame" x="282" y="499" width="37" height="37"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="37" id="17m-ic-eVd"/>
@@ -83,12 +83,15 @@
                         </variation>
                     </view>
                     <connections>
-                        <segue destination="3Jw-iD-7eA" kind="show" id="QAd-uJ-I9W"/>
+                        <outlet property="loading" destination="mvk-X1-XTf" id="nxs-zx-iHx"/>
+                        <outlet property="userName" destination="8zo-ej-gwA" id="L4T-vD-Bxu"/>
+                        <segue destination="3Jw-iD-7eA" kind="presentation" identifier="currentUser" id="ykg-d8-NRV"/>
+                        <segue destination="jKV-RS-nWQ" kind="presentation" identifier="noUser" id="KtA-B8-hx1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K1B-F2-YKU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="201" y="-68"/>
+            <point key="canvasLocation" x="149" y="-68"/>
         </scene>
         <!--Login Signup Choice View Controller-->
         <scene sceneID="VX9-oG-LpK">
@@ -170,7 +173,6 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="jKV-RS-nWQ" kind="presentation" id="c4i-bC-XUo"/>
                         <segue destination="fNu-UA-vhw" kind="relationship" relationship="viewControllers" id="66r-Am-RmQ"/>
                         <segue destination="sgQ-fK-ce5" kind="relationship" relationship="viewControllers" id="vBb-Sq-DOv"/>
                         <segue destination="XNY-dd-Rl1" kind="relationship" relationship="viewControllers" id="DMG-0z-eKI"/>
@@ -178,13 +180,12 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zju-Ay-Euh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="887" y="-68"/>
+            <point key="canvasLocation" x="847" y="-68"/>
         </scene>
-        <!--Item-->
+        <!--Navigation Controller-->
         <scene sceneID="PQE-bG-uTe">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jKV-RS-nWQ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="Fu8-yA-nmU"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="dMj-58-hVF">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -788,7 +789,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pku-XW-QRQ">
+                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pku-XW-QRQ">
                                 <rect key="frame" x="20" y="64" width="560" height="240"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z0L-yJ-8U9">
@@ -898,10 +899,10 @@
             </objects>
             <point key="canvasLocation" x="2952" y="-16"/>
         </scene>
-        <!--Fashion911 Table View Controller-->
+        <!--Add Photo Table View Controller-->
         <scene sceneID="8VJ-wq-Dil">
             <objects>
-                <tableViewController storyboardIdentifier="Fashion911TableViewController" id="MvB-U6-LTy" customClass="Fashion911TableViewController" sceneMemberID="viewController">
+                <tableViewController id="MvB-U6-LTy" customClass="AddPhotoTableViewController" customModule="StyleBy___" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Oib-qa-HnH">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1001,8 +1002,8 @@
         <image name="closet6" width="661" height="996"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="zdv-1F-ZU9"/>
         <segue reference="92n-4s-i1Y"/>
         <segue reference="jeG-ty-luK"/>
-        <segue reference="Hfh-pc-btU"/>
     </inferredMetricsTieBreakers>
 </document>

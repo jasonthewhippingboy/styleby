@@ -14,13 +14,19 @@ class PostController {
     
     static func fetchTimelineForUser(user: User, completion: (posts: [Post]?) -> Void) {
         
-        UserController.followedByUser(user) { (followed) in
+        guard let currentUser = UserController.sharedController.currentUser else {
+            completion(posts: nil)
+            return
+        }
+        
+        UserController.sharedController.followedByUser(user) { (followed) in
             
             var allPosts: [Post] = []
             let dispatchGroup = dispatch_group_create()
             
+            
             dispatch_group_enter(dispatchGroup)
-            postsForUser(UserController.sharedController.currentUser, completion: { (posts) -> Void in
+            postsForUser(currentUser, completion: { (posts) -> Void in
                 
                 if let posts = posts {
                     allPosts += posts
@@ -51,11 +57,17 @@ class PostController {
     
     static func addPost(image: UIImage, topBy: String?, bottomBy: String?, shoesBy: String?, accessoriesBy: String?, completion: (success: Bool, post: Post?) -> Void) {
         
-        ImageController.uploadImage(image) { (identifier) -> Void in
+        guard let currentUser = UserController.sharedController.currentUser else {
+            completion(success: false, post: nil)
+            return
+        }
+        var post = Post(topBy: topBy, bottomBy: bottomBy, shoesBy: shoesBy, accessoriesBy: accessoriesBy, username: currentUser.username)
+        post.save()
+        guard let postIdentifier = post.identifier else { completion(success: false, post: nil); return }
+        
+        ImageController.uploadImage(image, identifier: postIdentifier) { (success) -> Void in
             
-            if let identifier = identifier {
-                var post = Post(imageEndpoint: identifier, topBy: topBy, bottomBy: bottomBy, shoesBy: shoesBy, accessoriesBy: accessoriesBy, username: UserController.sharedController.currentUser.username)
-                post.save()
+            if success {
                 completion(success: true, post: post)
             } else {
                 completion(success: false, post: nil)
@@ -66,15 +78,13 @@ class PostController {
     static func postFromIdentifier(identifier: String, completion: (post: Post?) -> Void) {
         
         FirebaseController.ref.child("posts/\(identifier)").observeSingleEventOfType(.Value, withBlock: { snapshot in
-            // TODO: Parse post data
-//            if let data = data as? [String: AnyObject] {
-//                let post = Post(json: data, identifier: identifier)
-//                
-//                completion(post: post)
-//            } else {
-//                completion(post: nil)
-//            }
-            })
+            guard let userDictionary = snapshot.value as? [String: String] else {
+                completion(post: nil)
+                return
+            }
+            let post = Post(dictionary: userDictionary, identifier: identifier)
+            completion(post: post)
+        })
     }
     
     static func postsForUser(user: User, completion: (posts: [Post]?) -> Void) {
@@ -106,7 +116,12 @@ class PostController {
     static func addCommentWithTextToPost(text: String, post: Post, completion: (success: Bool, post: Post?) -> Void?) {
         if let postIdentifier = post.identifier {
             
-            var comment = Comment(username: UserController.sharedController.currentUser.username, text: text, postIdentifier: postIdentifier)
+            guard let currentUser = UserController.sharedController.currentUser else {
+                completion(success: false, post: nil)
+                return
+            }
+            
+            var comment = Comment(username: currentUser.username, text: text, postIdentifier: postIdentifier)
             comment.save()
             
             PostController.postFromIdentifier(comment.postIdentifier) { (post) -> Void in
@@ -116,7 +131,12 @@ class PostController {
             
             var post = post
             post.save()
-            var comment = Comment(username: UserController.sharedController.currentUser.username, text: text, postIdentifier: post.identifier!)
+            
+            guard let currentUser = UserController.sharedController.currentUser else {
+                completion(success: false, post: nil)
+                return
+            }
+            var comment = Comment(username: currentUser.username, text: text, postIdentifier: post.identifier!)
             comment.save()
             
             PostController.postFromIdentifier(comment.postIdentifier) { (post) -> Void in
@@ -137,14 +157,24 @@ class PostController {
         
         if let postIdentifier = post.identifier {
             
-            var like = Like(username: UserController.sharedController.currentUser.username, postIdentifier: postIdentifier)
+            guard let currentUser = UserController.sharedController.currentUser else {
+                completion(success: false, post: nil)
+                return
+            }
+            
+            var like = Like(username: currentUser.username, postIdentifier: postIdentifier)
             like.save()
             
         } else {
             
             var post = post
             post.save()
-            var like = Like(username: UserController.sharedController.currentUser.username, postIdentifier: post.identifier!)
+            
+            guard let currentUser = UserController.sharedController.currentUser else {
+                completion(success: false, post: nil)
+                return
+            }
+            var like = Like(username: currentUser.username, postIdentifier: post.identifier!)
             like.save()
         }
         

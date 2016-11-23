@@ -14,18 +14,22 @@ import UIKit
 class Fashion911Controller {
     
     
-    static func fetchTimelineForUser(user: User, completion: (posts: [Post]?) -> Void) {
+    static func fetchTimelineForUser(user: User, completion: (fashion911: [Fashion911]?) -> Void) {
         
-        UserController.followedByUser(user) { (followed) in
+        UserController.sharedController.followedByUser(user) { (followed) in
             
-            var allPosts: [Post] = []
+            var allFashion911: [Fashion911] = []
             let dispatchGroup = dispatch_group_create()
+            guard let currentUser = UserController.sharedController.currentUser else {
+                completion(fashion911: nil)
+                return
+            }
             
             dispatch_group_enter(dispatchGroup)
-            postsForUser(UserController.sharedController.currentUser, completion: { (posts) -> Void in
+            fashion911ForUser(currentUser, completion: { (fashion911) -> Void in
                 
-                if let posts = posts {
-                    allPosts += posts
+                if let fashion911 = fashion911 {
+                    allFashion911 += fashion911
                 }
                 
                 dispatch_group_leave(dispatchGroup)
@@ -35,9 +39,9 @@ class Fashion911Controller {
                 for user in followed {
                     
                     dispatch_group_enter(dispatchGroup)
-                    postsForUser(user, completion: { (posts) in
-                        if let posts = posts {
-                            allPosts += posts
+                    fashion911ForUser(user, completion: { (fashion911) in
+                        if let fashion911 = fashion911 {
+                            allFashion911 += fashion911
                         }
                         dispatch_group_leave(dispatchGroup)
                     })
@@ -45,19 +49,26 @@ class Fashion911Controller {
             }
             
             dispatch_group_notify(dispatchGroup, dispatch_get_main_queue(), { () -> Void in
-                let orderedPosts = orderPosts(allPosts)
-                completion(posts: orderedPosts)
+                let orderedFashion911 = orderFashion911(allFashion911)
+                completion(fashion911: orderedFashion911)
             })
         }
     }
     
     static func addFashion911(image: UIImage, whatsYourEmergency: String?, completion: (success: Bool, fashion911: Fashion911?) -> Void) {
         
-        ImageController.uploadImage(image) { (identifier) -> Void in
-            
-            if let identifier = identifier {
-                var fashion911 = Fashion911(imageEndpoint: identifier, whatsYourEmergency: whatsYourEmergency, username: UserController.sharedController.currentUser.username)
-                fashion911.save()
+        guard let currentUser = UserController.sharedController.currentUser else {
+            completion(success: false, fashion911: nil)
+            return
+        }
+        
+        var fashion911 = Fashion911(whatsYourEmergency: whatsYourEmergency, username: currentUser.username)
+        fashion911.save()
+        
+        guard let fashionIdentifier = fashion911.identifier else { completion(success: false, fashion911: nil); return }
+        
+        ImageController.uploadImage(image, identifier: fashionIdentifier) { (success) -> Void in
+            if success {
                 completion(success: true, fashion911: fashion911)
             } else {
                 completion(success: false, fashion911: nil)
@@ -65,108 +76,127 @@ class Fashion911Controller {
         }
     }
     
-    static func postFromIdentifier(identifier: String, completion: (post: Post?) -> Void) {
+    static func fashion911FromIdentifier(identifier: String, completion: (fashion911: Fashion911?) -> Void) {
         
-        FirebaseController.ref.child("posts\(identifier)").observeSingleEventOfType(.Value, withBlock: { snapshot in
-            // TODO: Parse snapshot as Post
-//            if let data = data as? [String: AnyObject] {
-//                let post = Post(json: data, identifier: identifier)
-//                
-//                completion(post: post)
-//            } else {
-//                completion(post: nil)
-//            }
+        FirebaseController.ref.child("fashion911\(identifier)").observeSingleEventOfType(.Value, withBlock: { snapshot in
+            guard let userDictionary = snapshot.value as? [String: String] else {
+                completion(fashion911: nil)
+                return
+            }
+            
+            let fashion911 = Fashion911(dictionary: userDictionary, identifier: identifier)
+            completion(fashion911: fashion911)
         })
     }
     
-    static func postsForUser(user: User, completion: (posts: [Post]?) -> Void) {
+    static func fashion911ForUser(user: User, completion: (fashion911: [Fashion911]?) -> Void) {
         
-        FirebaseController.ref.child("posts").queryOrderedByChild("username").queryEqualToValue(user.username).observeSingleEventOfType(.Value, withBlock: { snapshot in
+        FirebaseController.ref.child("fashion911").queryOrderedByChild("username").queryEqualToValue(user.username).observeSingleEventOfType(.Value, withBlock: { snapshot in
             
             
-            if let postDictionaries = snapshot.value as? [String: AnyObject] {
+            if let fashion911Dictionaries = snapshot.value as? [String: AnyObject] {
                 
-                let posts = postDictionaries.flatMap({Post(dictionary: $0.1 as! [String : AnyObject], identifier: $0.0)})
+                let fashion911 = fashion911Dictionaries.flatMap({Fashion911(dictionary: $0.1 as! [String : AnyObject], identifier: $0.0)})
                 
-                let orderedPosts = orderPosts(posts)
+                let orderedFashion911 = orderFashion911(fashion911)
                 
-                completion(posts: orderedPosts)
+                completion(fashion911: orderedFashion911)
                 
             } else {
                 
-                completion(posts: nil)
+                completion(fashion911: nil)
             }
         })
         
     }
     
-    static func deletePost(post: Post) {
-        post.delete()
+    static func deleteFashion911(fashion911: Fashion911) {
+        fashion911.delete()
         
     }
     
-    static func addCommentWithTextToPost(text: String, post: Post, completion: (success: Bool, post: Post?) -> Void?) {
-        if let postIdentifier = post.identifier {
+    static func addCommentWithTextToFashion911(text: String, fashion911: Fashion911, completion: (success: Bool, fashion911: Fashion911?) -> Void?) {
+        if let fashion911Identifier = fashion911.identifier {
             
-            var comment = Comment(username: UserController.sharedController.currentUser.username, text: text, postIdentifier: postIdentifier)
+            guard let currentUser = UserController.sharedController.currentUser else {
+                completion(success: false, fashion911: nil)
+                return
+            }
+            
+            var comment = Comment(username: currentUser.username, text: text, fashion911: fashion911Identifier)
             comment.save()
             
-            Fashion911Controller.postFromIdentifier(comment.postIdentifier) { (post) -> Void in
-                completion(success: true, post: post)
+            Fashion911Controller.fashion911FromIdentifier(comment.fashion911Identifier) { (fashion911) -> Void in
+                completion(success: true, fashion911: fashion911)
             }
         } else {
             
-            var post = post
-            post.save()
-            var comment = Comment(username: UserController.sharedController.currentUser.username, text: text, postIdentifier: post.identifier!)
+            var fashion911 = fashion911
+            fashion911.save()
+            
+            guard let currentUser = UserController.sharedController.currentUser else {
+                completion(success: false, fashion911: nil)
+                return
+            }
+            var Comment = Comment(username: currentUser.username, text: text, fashion911Identifier: fashion911.identifier!)
             comment.save()
             
-            Fashion911Controller.postFromIdentifier(comment.postIdentifier) { (post) -> Void in
-                completion(success: true, post: post)
+            Fashion911Controller.fashion911FromIdentifier(comment.fashion911Identifier) { (fashion911) -> Void in
+                completion(success: true, fashion911: fashion911)
             }
         }
     }
     
-    static func deleteComment(comment: Comment, completion: (success: Bool, post: Post?) -> Void) {
+    static func deleteComment(comment: Comment, completion: (success: Bool, fashion911: Fashion911?) -> Void) {
         comment.delete()
         
-        Fashion911Controller.postFromIdentifier(comment.postIdentifier) { (post) -> Void in
-            completion(success: true, post: post)
+        Fashion911Controller.fashion911FromIdentifier(comment.fashion911Identifier) { (fashion911) -> Void in
+            completion(success: true, fashion911: fashion911)
         }
     }
     
-    static func addLikeToPost(post: Post, completion: (success: Bool, post: Post?) -> Void) {
+    static func addLikeToFashion911(fashion911: Fashion911, completion: (success: Bool, fashion911: Fashion911?) -> Void) {
         
-        if let postIdentifier = post.identifier {
+        if let fashion911Identifier = fashion911.identifier {
             
-            var like = Like(username: UserController.sharedController.currentUser.username, postIdentifier: postIdentifier)
+            guard let currentUser = UserController.sharedController.currentUser else {
+                completion(success: false, fashion911: nil)
+                return
+            }
+            
+            var like = Like(username: currentUser.username, fashion911Identifier: fashion911Identifier)
             like.save()
             
         } else {
             
-            var post = post
-            post.save()
-            var like = Like(username: UserController.sharedController.currentUser.username, postIdentifier: post.identifier!)
+            var fashion911 = fashion911
+            fashion911.save()
+            
+            guard let currentUser = UserController.sharedController.currentUser else {
+                completion(success: false, fashion911: nil)
+                return
+            }
+            var like = Like(username: currentUser.username, fashion911Identifier: fashion911.identifier!)
             like.save()
         }
         
-        Fashion911Controller.postFromIdentifier(post.identifier!, completion: { (post) -> Void in
-            completion(success: true, post: post)
+        Fashion911Controller.fashion911FromIdentifier(fashion911.identifier!, completion: { (fashion911) -> Void in
+            completion(success: true, fashion911: fashion911)
         })
     }
     
-    static func deleteLike(like: Like, completion: (success: Bool, post: Post?) -> Void) {
+    static func deleteLike(like: Like, completion: (success: Bool, fashion911: Fashion911?) -> Void) {
         
         like.delete()
         
-        Fashion911Controller.postFromIdentifier(like.postIdentifier) { (post) -> Void in
-            completion(success: true, post: post)
+        Fashion911Controller.fashion911FromIdentifier(like.fashion911Identifier) { (fashion911) -> Void in
+            completion(success: true, fashion911: fashion911)
         }
     }
     
-    static func orderPosts(posts: [Post]) -> [Post] {
+    static func orderFashion911(fashion911: [Fashion911]) -> [Fashion911] {
         
-        return posts.sort({$0.0.identifier > $0.1.identifier})
-}
-
+        return fashion911.sort({$0.0.identifier > $0.1.identifier})
+    }
+    
 }

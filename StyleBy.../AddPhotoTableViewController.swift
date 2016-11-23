@@ -15,6 +15,7 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
     var bottomBy: String?
     var shoesBy: String?
     var accessoriesBy: String?
+    var whatsYourEmergency: String?
     @IBOutlet weak var addPhotoButton: UIButton!
     @IBOutlet weak var topByTextField: UITextField!
     @IBOutlet weak var bottomByTextField: UITextField!
@@ -72,6 +73,7 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
         bottomBy = textField.text
         shoesBy = textField.text
         accessoriesBy = textField.text
+        whatsYourEmergency = textField.text
         textField.resignFirstResponder()
         
         return true
@@ -83,7 +85,7 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
             
             //POST IMAGE
             
-            PostController.addPost(image, topBy: self.topBy, bottomBy: self.bottomBy, shoesBy: self.shoesBy, accessoriesBy: self.accessoriesBy, completion: { (success, post) -> Void in
+            PostController.addPost(image, topBy: self.topBy, bottomBy: self.bottomBy, shoesBy: self.shoesBy, accessoriesBy: self.accessoriesBy, whatsYourEmergency: self.whatsYourEmergency, completion: { (success, post) -> Void in
                 if post != nil {
                     self.dismissViewControllerAnimated(true, completion: nil)
                 } else {

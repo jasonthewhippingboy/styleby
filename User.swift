@@ -17,6 +17,7 @@ struct User: FirebaseType {
     private let kEmail = "email"
     private let kBio = "bio"
     private let kURL = "url"
+    private let kId = "identifier"
     
     var username = ""
     var firstName: String
@@ -33,7 +34,11 @@ struct User: FirebaseType {
         return "\(endpoint)/\(identifier)"
     }
     var dictionaryCopy: [String : AnyObject] {
-        return [kUsername: username, kFirstName: firstName, kLastName: lastName, kEmail: email, kBio: (bio)!, kURL: (url)!]
+        guard let identifier = identifier  else {
+    return ["":""]
+    
+    }
+        return [kUsername: username, kFirstName: firstName, kLastName: lastName, kEmail: email, kBio: (bio)!, kURL: (url)!,kId: (identifier)]
         }
         
     init(username: String, firstName: String, lastName: String, email: String, bio: String? = nil, URL: String? = nil, identifier: String? = nil) {

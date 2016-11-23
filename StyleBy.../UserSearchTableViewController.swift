@@ -16,10 +16,14 @@ class UserSearchTableViewController: UITableViewController, UISearchResultsUpdat
         
         func users(completion: (users:[User]?) -> Void) {
             
+            guard let currentUser = UserController.sharedController.currentUser else {
+                completion(users: nil)
+                return
+            }
             switch self {
                 
             case .Friends:
-                UserController.followedByUser(UserController.sharedController.currentUser) { (followers) -> Void in
+                UserController.sharedController.followedByUser(currentUser) { (followers) -> Void in
                     completion(users: followers)
                 }
                 

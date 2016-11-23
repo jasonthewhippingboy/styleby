@@ -44,6 +44,7 @@ struct Comment: Equatable, FirebaseType {
         self.identifier = identifier
     }
     
+    
 }
 
 func ==(lhs: Comment, rhs: Comment) -> Bool {

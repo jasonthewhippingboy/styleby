@@ -71,13 +71,13 @@ class Fashion911TableViewController: UITableViewController, UIImagePickerControl
         self.view.window?.endEditing(true)
         if let image = image  {
             
-            //POST IMAGE
+            //Fashion911 IMAGE
             
-            Fashion911Controller.addFashion911(image, whatsYourEmergency: self.whatsYourEmergency, completion: { (success, post) -> Void in
-                if post != nil {
+           PostController.addPost(image, whatsYourEmergency: self.whatsYourEmergency, completion: { (success, fashion911) -> Void in
+                if fashion911 != nil {
                     self.dismissViewControllerAnimated(true, completion: nil)
                 } else {
-                    let failedAlert = UIAlertController(title: "Failed!", message: "Image failed to post. Please try again.", preferredStyle: .Alert)
+                    let failedAlert = UIAlertController(title: "Failed!", message: "Image failed to Fashion911. Please try again.", preferredStyle: .Alert)
                     failedAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
                     self.presentViewController(failedAlert, animated: true, completion: nil)
                 }

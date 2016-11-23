@@ -71,7 +71,11 @@ class StyleByTableViewController: UITableViewController {
     }
     
     @IBAction func userRefreshedTable() {
-        loadTimelineForUser(UserController.sharedController.currentUser)
+        
+        guard let currentUser = UserController.sharedController.currentUser else {
+            return
+        }
+        loadTimelineForUser(currentUser)
     }
     
     
