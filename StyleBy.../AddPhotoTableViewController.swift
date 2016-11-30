@@ -85,7 +85,7 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
             
             //POST IMAGE
             
-            PostController.addPost(image, topBy: self.topBy, bottomBy: self.bottomBy, shoesBy: self.shoesBy, accessoriesBy: self.accessoriesBy, whatsYourEmergency: self.whatsYourEmergency, completion: { (success, post) -> Void in
+            PostController.addPost(image, topBy: self.topBy, bottomBy: self.bottomBy, shoesBy: self.shoesBy, accessoriesBy: self.accessoriesBy, completion: { (success, post) -> Void in
                 if post != nil {
                     self.dismissViewControllerAnimated(true, completion: nil)
                 } else {

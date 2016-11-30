@@ -155,7 +155,7 @@ class Fashion911Controller {
         }
     }
     
-    static func addLikeToFashion911(fashion911: Fashion911, completion: (success: Bool, fashion911: Fashion911?) -> Void) {
+    static func addFashion911LikeToFashion911(fashion911: Fashion911, completion: (success: Bool, fashion911: Fashion911?) -> Void) {
         
         if let fashion911Identifier = fashion911.identifier {
             
@@ -164,8 +164,8 @@ class Fashion911Controller {
                 return
             }
             
-            var like = Like(username: currentUser.username, fashion911Identifier: fashion911Identifier)
-            like.save()
+            var fashion911Like = Fashion911Like(username: currentUser.username, postIdentifier: fashion911Identifier)
+            fashion911Like.save()
             
         } else {
             
@@ -176,8 +176,8 @@ class Fashion911Controller {
                 completion(success: false, fashion911: nil)
                 return
             }
-            var like = Like(username: currentUser.username, fashion911Identifier: fashion911.identifier!)
-            like.save()
+            var fashion911Like = Fashion911Like(username: currentUser.username, postIdentifier: fashion911.identifier!)
+            fashion911Like.save()
         }
         
         Fashion911Controller.fashion911FromIdentifier(fashion911.identifier!, completion: { (fashion911) -> Void in
@@ -185,11 +185,11 @@ class Fashion911Controller {
         })
     }
     
-    static func deleteLike(like: Like, completion: (success: Bool, fashion911: Fashion911?) -> Void) {
+    static func deleteLike(fashion911Like: Fashion911Like, completion: (success: Bool, fashion911: Fashion911?) -> Void) {
         
-        like.delete()
+        fashion911Like.delete()
         
-        Fashion911Controller.fashion911FromIdentifier(like.fashion911Identifier) { (fashion911) -> Void in
+        Fashion911Controller.fashion911FromIdentifier(fashion911Like.postIdentifier) { (fashion911) -> Void in
             completion(success: true, fashion911: fashion911)
         }
     }

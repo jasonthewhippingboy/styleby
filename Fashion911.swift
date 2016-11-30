@@ -14,13 +14,13 @@ struct Fashion911: Equatable, FirebaseType {
     private let kImageEndpoint = "image"
     private let kWhatsYourEmergency = "whatsYourEmergency"
     private let kFashion911Comment = "fashion911comment"
-    private let kLikes = "likes"
+    private let kFashion911Like = "fashion911like"
     private let kIdentifier = "identifier"
     
     let whatsYourEmergency: String?
     let username: String
     let fashion911comment: [Fashion911Comment]
-    let likes: [Like]
+    let fashion911like: [Fashion911Like]
     var identifier: String?
     var endpoint: String {
         return "fashion911"
@@ -31,7 +31,7 @@ struct Fashion911: Equatable, FirebaseType {
         return "images/\(identifier)"
     }
     var dictionaryCopy: [String : AnyObject] {
-        var dictionaryCopy: [String: AnyObject] = [kUsername : username, kImageEndpoint : imageEndpoint, kFashion911Comment : fashion911comment.map { $0.dictionaryCopy }, kLikes : likes.map { $0.dictionaryCopy }]
+        var dictionaryCopy: [String: AnyObject] = [kUsername : username, kImageEndpoint : imageEndpoint, kFashion911Comment : fashion911comment.map { $0.dictionaryCopy }, kFashion911Like : fashion911like.map { $0.dictionaryCopy }]
         
         if let whatsYourEmergency = whatsYourEmergency {
             dictionaryCopy.updateValue(whatsYourEmergency, forKey: kWhatsYourEmergency)
@@ -40,12 +40,12 @@ struct Fashion911: Equatable, FirebaseType {
         return dictionaryCopy
     }
     
-    init(whatsYourEmergency: String?, username: String = "", fashion911comment: [Fashion911Comment] = [], likes: [Like] = [], identifier: String? = nil) {
+    init(whatsYourEmergency: String?, username: String = "", fashion911comment: [Fashion911Comment] = [], fashion911like: [Fashion911Like] = [], identifier: String? = nil) {
         
         self.whatsYourEmergency = kWhatsYourEmergency
         self.username = username
         self.fashion911comment = fashion911comment
-        self.likes = likes
+        self.fashion911like = fashion911like
     }
     
     init?(dictionary json: [String : AnyObject], identifier: String) {
@@ -61,10 +61,10 @@ struct Fashion911: Equatable, FirebaseType {
             self.fashion911comment = []
         }
         
-        if let likeDictionaries = json[kLikes] as? [String: AnyObject] {
-            self.likes = likeDictionaries.flatMap({Like(dictionary: $0.1 as! [String : AnyObject], identifier: $0.0)})
+        if let fashion911likeDictionaries = json[kFashion911Like] as? [String: AnyObject] {
+            self.fashion911like = fashion911likeDictionaries.flatMap({Fashion911Like(dictionary: $0.1 as! [String : AnyObject], identifier: $0.0)})
         } else {
-            self.likes = []
+            self.fashion911like = []
         }
         
     }

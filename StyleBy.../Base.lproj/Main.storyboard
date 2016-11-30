@@ -37,7 +37,7 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nanette" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8zo-ej-gwA">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8zo-ej-gwA">
                                 <rect key="frame" x="0.0" y="-31" width="600" height="580"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="39"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -85,8 +85,8 @@
                     <connections>
                         <outlet property="loading" destination="mvk-X1-XTf" id="nxs-zx-iHx"/>
                         <outlet property="userName" destination="8zo-ej-gwA" id="L4T-vD-Bxu"/>
-                        <segue destination="3Jw-iD-7eA" kind="presentation" identifier="currentUser" id="ykg-d8-NRV"/>
-                        <segue destination="jKV-RS-nWQ" kind="presentation" identifier="noUser" id="KtA-B8-hx1"/>
+                        <segue destination="3Jw-iD-7eA" kind="presentation" identifier="&quot;currentUser&quot;" id="ykg-d8-NRV"/>
+                        <segue destination="jKV-RS-nWQ" kind="presentation" identifier="&quot;noUser&quot;" id="KtA-B8-hx1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K1B-F2-YKU" userLabel="First Responder" sceneMemberID="firstResponder"/>
