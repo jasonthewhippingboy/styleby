@@ -60,7 +60,7 @@ class LoginSignupViewController: UIViewController {
         case .Login:
             firstNameTextField.hidden = true
             lastNameTextField.hidden = true
-            emailTextField.hidden = true
+            usernameTextField.hidden = true
             bioTextField.hidden = true
             urlTextField.hidden = true
             
@@ -95,7 +95,7 @@ class LoginSignupViewController: UIViewController {
         if fieldsAreValid {
             switch viewMode {
             case .Login:
-                UserController.authenticateUser(usernameTextField.text!, password: passwordTextField.text!, completion: { (success, user) -> Void in
+                UserController.authenticateUser(emailTextField.text!, password: passwordTextField.text!, completion: { (success, user) -> Void in
                     if success, let _ = user {
                         self.dismissViewControllerAnimated(true, completion: nil)
                     } else {
@@ -103,6 +103,7 @@ class LoginSignupViewController: UIViewController {
                     }
                 })
             case .Signup:
+                print(emailTextField.text)
                 UserController.createUser(username: usernameTextField.text!, firstName: firstNameTextField.text!, lastName: lastNameTextField.text!, email: emailTextField.text!, password: passwordTextField.text!, bio: bioTextField.text, url: urlTextField.text, completion: { (success, user) -> Void in
                     if success, let _ = user {
                         self.dismissViewControllerAnimated(true, completion: nil)

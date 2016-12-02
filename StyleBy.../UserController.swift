@@ -174,6 +174,7 @@ class UserController {
                 user.save()
                 completion(success: true, user: user)
             } else {
+                print(error?.localizedDescription)
                 completion(success: false, user: nil)
             }
         })

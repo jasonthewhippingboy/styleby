@@ -86,7 +86,7 @@
                         <outlet property="loading" destination="mvk-X1-XTf" id="nxs-zx-iHx"/>
                         <outlet property="userName" destination="8zo-ej-gwA" id="L4T-vD-Bxu"/>
                         <segue destination="3Jw-iD-7eA" kind="presentation" identifier="&quot;currentUser&quot;" id="ykg-d8-NRV"/>
-                        <segue destination="jKV-RS-nWQ" kind="presentation" identifier="&quot;noUser&quot;" id="KtA-B8-hx1"/>
+                        <segue destination="jKV-RS-nWQ" kind="presentation" identifier="noUser" id="XAo-3M-qWg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K1B-F2-YKU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -126,19 +126,19 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8qv-av-jgm">
                                                 <rect key="frame" x="0.0" y="0.0" width="280" height="60"/>
                                                 <state key="normal" title="Sign Up">
-                                                    <color key="titleColor" red="0.2325125633" green="0.56636534689999996" blue="0.098032752060000006" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleColor" red="0.25098040700000002" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="RdX-MB-aeg" kind="show" id="esp-iZ-Crq"/>
+                                                    <segue destination="RdX-MB-aeg" kind="show" identifier="toSignUp" id="esp-iZ-Crq"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AD9-Q0-b3g">
                                                 <rect key="frame" x="280" y="0.0" width="280" height="60"/>
                                                 <state key="normal" title="Log In">
-                                                    <color key="titleColor" red="0.2325125633" green="0.56636534689999996" blue="0.098032752060000006" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleColor" red="0.25098040700000002" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="RdX-MB-aeg" kind="show" id="zdv-1F-ZU9"/>
+                                                    <segue destination="RdX-MB-aeg" kind="show" identifier="toLogin" id="zdv-1F-ZU9"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -147,9 +147,10 @@
                                         </constraints>
                                     </stackView>
                                 </subviews>
+                                <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.069786125886524816" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="aSk-0z-ekZ" firstAttribute="top" secondItem="Bgt-91-TQz" secondAttribute="bottom" constant="44" id="MIL-PZ-9IP"/>
                             <constraint firstAttribute="trailingMargin" secondItem="aSk-0z-ekZ" secondAttribute="trailing" id="QQ5-Wt-FDr"/>
@@ -161,7 +162,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="60M-NG-AKo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1367" y="820"/>
+            <point key="canvasLocation" x="1269" y="820"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="RwN-1C-9hv">
@@ -198,7 +199,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eze-tK-gX1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="717" y="820"/>
+            <point key="canvasLocation" x="573" y="820"/>
         </scene>
         <!--StyleBy-->
         <scene sceneID="FYr-g2-11Z">
@@ -830,7 +831,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jlF-He-Pfd">
                                         <rect key="frame" x="0.0" y="210" width="560" height="30"/>
                                         <state key="normal" title="Action">
-                                            <color key="titleColor" red="0.2325125633" green="0.56636534689999996" blue="0.098032752060000006" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.25098040700000002" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="actionButtonTapped" destination="RdX-MB-aeg" eventType="touchUpInside" id="I9T-V2-eWK"/>
@@ -839,7 +840,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.070728058510638292" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="okV-Xq-eml" firstAttribute="top" relation="greaterThanOrEqual" secondItem="pku-XW-QRQ" secondAttribute="bottom" priority="750" constant="225" id="NH9-hO-eMK"/>
                             <constraint firstAttribute="leadingMargin" secondItem="pku-XW-QRQ" secondAttribute="leading" id="XWy-a5-fu8"/>
@@ -850,9 +851,9 @@
                     <connections>
                         <outlet property="actionButton" destination="jlF-He-Pfd" id="eKg-Ik-Viw"/>
                         <outlet property="bioTextField" destination="5sc-m5-hoa" id="gdz-3a-Suu"/>
-                        <outlet property="emailTextField" destination="aZ5-Ks-8SD" id="kVS-Fo-BJi"/>
-                        <outlet property="firstNameTextField" destination="vGp-h6-h34" id="kVy-mY-rde"/>
-                        <outlet property="lastNameTextField" destination="vGp-h6-h34" id="bgr-ew-iY5"/>
+                        <outlet property="emailTextField" destination="4d4-4A-pMW" id="EPw-E9-ZOV"/>
+                        <outlet property="firstNameTextField" destination="aZ5-Ks-8SD" id="zYH-EL-eqi"/>
+                        <outlet property="lastNameTextField" destination="vGp-h6-h34" id="vuu-fd-Ihf"/>
                         <outlet property="passwordTextField" destination="sTA-Aw-3ka" id="wCW-a3-f3P"/>
                         <outlet property="urlTextField" destination="01S-2a-653" id="DMN-8I-jrd"/>
                         <outlet property="usernameTextField" destination="z0L-yJ-8U9" id="7OG-Sw-dXs"/>
@@ -1002,8 +1003,8 @@
         <image name="closet6" width="661" height="996"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="zdv-1F-ZU9"/>
         <segue reference="92n-4s-i1Y"/>
         <segue reference="jeG-ty-luK"/>
+        <segue reference="esp-iZ-Crq"/>
     </inferredMetricsTieBreakers>
 </document>

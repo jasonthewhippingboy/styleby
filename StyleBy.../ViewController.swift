@@ -17,6 +17,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         retrieveFirstName()
+        performSelector(#selector(ViewController.performSegueBasedOnUserStatus), withObject: nil, afterDelay: 3)
     }
     private let kFirstName = "firstName"
     private let kUser = "userKey"
@@ -29,13 +30,20 @@ class ViewController: UIViewController {
         self.userName.text = firstName
     }
     
-    func viewWillAppear() {
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+       
+    }
+    func performSegueBasedOnUserStatus() {
         if UserController.sharedController.currentUser != nil {
-            performSegueWithIdentifier("currentUser", sender: nil)
+            performSegueWithIdentifier("currentUser", sender: self)
         } else {
-            performSegueWithIdentifier("noUser", sender: nil)
+            dispatch_async(dispatch_get_main_queue(), {
+                self.performSegueWithIdentifier("noUser", sender: self)
+            })
         }
     }
+    
     
 
     override func didReceiveMemoryWarning() {
@@ -43,6 +51,7 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    
+    
 }
 

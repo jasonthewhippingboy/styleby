@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class LoginSignupChoiceViewController: UIViewController {
 
     override func viewDidLoad() {
@@ -30,7 +31,7 @@ class LoginSignupChoiceViewController: UIViewController {
         
         
         
-        if segue.identifier == "toSignin" {
+        if segue.identifier == "toSignUp" {
             let destinationViewController = segue.destinationViewController as? LoginSignupViewController
             destinationViewController?.viewMode = LoginSignupViewController.ViewMode.Signup
         } else if segue.identifier == "toLogin" {

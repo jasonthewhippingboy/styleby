@@ -24,6 +24,7 @@
 		ED1E9FCB1D9B55C40078AEA3 /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1E9FCA1D9B55C40078AEA3 /* UserController.swift */; };
 		ED1E9FCD1D9B58010078AEA3 /* PostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1E9FCC1D9B58010078AEA3 /* PostController.swift */; };
 		ED1E9FCF1D9B58540078AEA3 /* ImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1E9FCE1D9B58540078AEA3 /* ImageController.swift */; };
+		ED50DB1F1DEE86680017D818 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED50DB1E1DEE86680017D818 /* GoogleService-Info.plist */; };
 		ED666CDE1DC0432C002EE979 /* Fashion911TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED666CDD1DC0432C002EE979 /* Fashion911TableViewController.swift */; };
 		ED75A3F81DE54323007AE5F1 /* Fashion911Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED75A3F71DE54323007AE5F1 /* Fashion911Comment.swift */; };
 		ED75A3FA1DEE627F007AE5F1 /* Fashion911lLike.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED75A3F91DEE627F007AE5F1 /* Fashion911lLike.swift */; };
@@ -38,7 +39,6 @@
 		ED765D701DA0142200A86426 /* UserSearchResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED765D6F1DA0142200A86426 /* UserSearchResultsTableViewController.swift */; };
 		ED765D721DA015EF00A86426 /* PostDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED765D711DA015EF00A86426 /* PostDetailTableViewController.swift */; };
 		ED765D741DA0168400A86426 /* StyleByTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED765D731DA0168400A86426 /* StyleByTableViewController.swift */; };
-		EDEF9D0F1DC2E38B005D3A72 /* GoogleService-info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EDEF9D0E1DC2E38B005D3A72 /* GoogleService-info.plist */; };
 		EDF8729B1DC52DCA00368919 /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF8729A1DC52DCA00368919 /* FirebaseController.swift */; };
 		EDF8729F1DC5347100368919 /* Fashion911.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF8729E1DC5347100368919 /* Fashion911.swift */; };
 		EDF872A11DC5366500368919 /* Fashion911Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF872A01DC5366500368919 /* Fashion911Controller.swift */; };
@@ -89,6 +89,7 @@
 		ED1E9FCA1D9B55C40078AEA3 /* UserController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
 		ED1E9FCC1D9B58010078AEA3 /* PostController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostController.swift; sourceTree = "<group>"; };
 		ED1E9FCE1D9B58540078AEA3 /* ImageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageController.swift; sourceTree = "<group>"; };
+		ED50DB1E1DEE86680017D818 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED666CDD1DC0432C002EE979 /* Fashion911TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fashion911TableViewController.swift; sourceTree = "<group>"; };
 		ED75A3F71DE54323007AE5F1 /* Fashion911Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fashion911Comment.swift; sourceTree = "<group>"; };
 		ED75A3F91DEE627F007AE5F1 /* Fashion911lLike.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fashion911lLike.swift; sourceTree = "<group>"; };
@@ -103,7 +104,6 @@
 		ED765D6F1DA0142200A86426 /* UserSearchResultsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearchResultsTableViewController.swift; sourceTree = "<group>"; };
 		ED765D711DA015EF00A86426 /* PostDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailTableViewController.swift; sourceTree = "<group>"; };
 		ED765D731DA0168400A86426 /* StyleByTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleByTableViewController.swift; sourceTree = "<group>"; };
-		EDEF9D0E1DC2E38B005D3A72 /* GoogleService-info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-info.plist"; path = "../../../../Downloads/GoogleService-info.plist"; sourceTree = "<group>"; };
 		EDF8729A1DC52DCA00368919 /* FirebaseController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
 		EDF8729E1DC5347100368919 /* Fashion911.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fashion911.swift; sourceTree = "<group>"; };
 		EDF872A01DC5366500368919 /* Fashion911Controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fashion911Controller.swift; sourceTree = "<group>"; };
@@ -194,7 +194,7 @@
 				ED765D551DA00D4D00A86426 /* Views */,
 				ED1E9FBE1D9B501A0078AEA3 /* View Controllers */,
 				ED1E9FA41D96F2860078AEA3 /* Info.plist */,
-				EDEF9D0E1DC2E38B005D3A72 /* GoogleService-info.plist */,
+				ED50DB1E1DEE86680017D818 /* GoogleService-Info.plist */,
 			);
 			path = StyleBy...;
 			sourceTree = "<group>";
@@ -404,9 +404,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED1E9F8D1D96F2860078AEA3 /* LaunchScreen.storyboard in Resources */,
+				ED50DB1F1DEE86680017D818 /* GoogleService-Info.plist in Resources */,
 				ED1E9F8A1D96F2860078AEA3 /* Assets.xcassets in Resources */,
 				ED1E9F881D96F2850078AEA3 /* Main.storyboard in Resources */,
-				EDEF9D0F1DC2E38B005D3A72 /* GoogleService-info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
