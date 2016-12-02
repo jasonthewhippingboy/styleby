@@ -144,7 +144,7 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, Profi
             
             _ = destinationViewController?.view
             
-            destinationViewController?.updateWithUser(user!)
+            destinationViewController?.updateWithCurrentUser()
         } else if segue.identifier == "profileToPostDetail" {
             if let cell = sender as? UICollectionViewCell, let indexPath = collectionView.indexPathForCell(cell) {
                 

@@ -85,8 +85,8 @@ class LoginSignupViewController: UIViewController {
         }
     }
     
-    func updateWithUser(user: User) {
-        self.user = user
+    func updateWithCurrentUser() {
+        self.user = UserController.sharedController.currentUser
         viewMode = .Edit
     }
     
@@ -96,8 +96,11 @@ class LoginSignupViewController: UIViewController {
             switch viewMode {
             case .Login:
                 UserController.authenticateUser(emailTextField.text!, password: passwordTextField.text!, completion: { (success, user) -> Void in
+                    
                     if success, let _ = user {
+                        guard let initial = self.presentingViewController as? ViewController else { fatalError() }
                         self.dismissViewControllerAnimated(true, completion: nil)
+                        initial.performSegueBasedOnUserStatus()
                     } else {
                         self.presentValidationAlertWithTitle("Unable to Log In", message: "Please check your information and try again.")
                     }
@@ -105,14 +108,18 @@ class LoginSignupViewController: UIViewController {
             case .Signup:
                 print(emailTextField.text)
                 UserController.createUser(username: usernameTextField.text!, firstName: firstNameTextField.text!, lastName: lastNameTextField.text!, email: emailTextField.text!, password: passwordTextField.text!, bio: bioTextField.text, url: urlTextField.text, completion: { (success, user) -> Void in
+                    
                     if success, let _ = user {
-                        self.dismissViewControllerAnimated(true, completion: nil)
+                        guard let initial = self.presentingViewController as? ViewController else { fatalError() }
+                        self.dismissViewControllerAnimated(true) {
+                        initial.performSegueBasedOnUserStatus()
+                        }
                     } else {
                         self.presentValidationAlertWithTitle("Unable to Signup", message: "Please check your information and try again.")
                     }
                 })
             case .Edit:
-                UserController.updateUser(self.user!, username: self.usernameTextField.text!, firstName: self.firstNameTextField.text!, lastName: self.lastNameTextField.text!, bio: self.bioTextField.text, url: self.urlTextField.text, completion: { (success, user) -> Void in
+                UserController.updateUser(self.user!, username: self.usernameTextField.text!, firstName: self.firstNameTextField.text!, lastName: self.lastNameTextField.text!, bio: self.bioTextField.text, url: self.urlTextField.text, completion: { (success) -> Void in
                     
                     if success {
                         self.dismissViewControllerAnimated(true, completion: nil)

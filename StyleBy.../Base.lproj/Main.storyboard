@@ -85,7 +85,7 @@
                     <connections>
                         <outlet property="loading" destination="mvk-X1-XTf" id="nxs-zx-iHx"/>
                         <outlet property="userName" destination="8zo-ej-gwA" id="L4T-vD-Bxu"/>
-                        <segue destination="3Jw-iD-7eA" kind="presentation" identifier="&quot;currentUser&quot;" id="ykg-d8-NRV"/>
+                        <segue destination="3Jw-iD-7eA" kind="presentation" identifier="currentUser" id="ykg-d8-NRV"/>
                         <segue destination="jKV-RS-nWQ" kind="presentation" identifier="noUser" id="XAo-3M-qWg"/>
                     </connections>
                 </viewController>
@@ -329,13 +329,13 @@
                         <barButtonItem key="leftBarButtonItem" title="911" id="7me-nT-Sro">
                             <color key="tintColor" red="0.75378354059999997" green="0.022696355370000001" blue="0.069170042619999997" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <segue destination="h0q-aw-Lg1" kind="presentation" id="rm3-Yj-IND"/>
+                                <segue destination="h0q-aw-Lg1" kind="presentation" identifier="Fashion911" id="rm3-Yj-IND"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="fqo-we-FWt">
                             <color key="tintColor" red="0.2325125633" green="0.56636534689999996" blue="0.098032752060000006" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <segue destination="NYQ-UF-Li7" kind="presentation" id="PNJ-2c-Xas"/>
+                                <segue destination="NYQ-UF-Li7" kind="presentation" identifier="AddPhoto" id="PNJ-2c-Xas"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -520,7 +520,7 @@
                     <navigationItem key="navigationItem" title="Profile" id="fhG-d4-QaT">
                         <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="edit" id="Fpl-M9-vhK">
                             <connections>
-                                <segue destination="RdX-MB-aeg" kind="presentation" id="Hfh-pc-btU"/>
+                                <segue destination="RdX-MB-aeg" kind="presentation" identifier="editUser" id="Hfh-pc-btU"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -648,11 +648,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="accessoriesTextField" destination="UM3-8v-7ro" id="3ef-pb-Hvg"/>
+                        <outlet property="accessoriesByField" destination="UM3-8v-7ro" id="dgz-Uj-P9Q"/>
                         <outlet property="addPhotoButton" destination="udN-0T-Ga0" id="8CD-Jy-78M"/>
-                        <outlet property="bottomDesignerTextField" destination="Sf1-V5-JMP" id="h5F-2r-qVL"/>
-                        <outlet property="shoesTextField" destination="xX7-FR-qTk" id="dDm-Bf-YYt"/>
-                        <outlet property="topDesignerTextField" destination="qdq-d0-6tf" id="Ezc-47-j1h"/>
+                        <outlet property="bottomByTextField" destination="Sf1-V5-JMP" id="0SW-hw-ibh"/>
+                        <outlet property="shoesByField" destination="xX7-FR-qTk" id="dYH-FR-adR"/>
+                        <outlet property="topByTextField" destination="qdq-d0-6tf" id="BEB-7f-jmU"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JUO-j2-DfR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -900,10 +900,10 @@
             </objects>
             <point key="canvasLocation" x="2952" y="-16"/>
         </scene>
-        <!--Add Photo Table View Controller-->
+        <!--Fashion911 Table View Controller-->
         <scene sceneID="8VJ-wq-Dil">
             <objects>
-                <tableViewController id="MvB-U6-LTy" customClass="AddPhotoTableViewController" customModule="StyleBy___" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="MvB-U6-LTy" customClass="Fashion911TableViewController" customModule="StyleBy___" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Oib-qa-HnH">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1004,7 +1004,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="92n-4s-i1Y"/>
-        <segue reference="jeG-ty-luK"/>
-        <segue reference="esp-iZ-Crq"/>
+        <segue reference="Hfh-pc-btU"/>
+        <segue reference="nKf-w5-Z9M"/>
     </inferredMetricsTieBreakers>
 </document>

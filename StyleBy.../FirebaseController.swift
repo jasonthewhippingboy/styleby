@@ -21,13 +21,13 @@ protocol FirebaseType {
     
     init?(dictionary: [String: AnyObject], identifier: String)
     
-    mutating func save()
+    mutating func save(completion: ((NSError?) -> ())?)
     func delete()
 }
 
 extension FirebaseType {
     
-    mutating func save() {
+    mutating func save(completion: ((NSError?) -> ())? = nil) {
         var newEndpoint = FirebaseController.ref.child(endpoint)
         if let identifier = identifier {
             newEndpoint = newEndpoint.child(identifier)
@@ -35,7 +35,9 @@ extension FirebaseType {
             newEndpoint = newEndpoint.childByAutoId()
             self.identifier = newEndpoint.key
         }
-        newEndpoint.updateChildValues(dictionaryCopy)
+        newEndpoint.updateChildValues(dictionaryCopy) { (error, ref) in
+            completion?(error)
+        }
     }
     
     func delete() {

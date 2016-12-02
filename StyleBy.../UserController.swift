@@ -13,6 +13,7 @@ class UserController {
     
     private let kUser = "userKey"
     
+    // TODO: Use this some time
     func fetchUserData(identifier: String, completion: (user: User?) -> Void) {
         
         let userRef = FirebaseController.ref.child("users").child(identifier)
@@ -171,8 +172,9 @@ class UserController {
         FIRAuth.auth()?.createUserWithEmail(email, password: password, completion: { (user, error) in
             if let user = user where error == nil {
                 var user = User(username: username, firstName: firstName, lastName: lastName, email: email, bio: bio, URL: url, identifier: user.uid)
-                user.save()
-                completion(success: true, user: user)
+                user.save { error in
+                    completion(success: error == nil, user: user)
+                }
             } else {
                 print(error?.localizedDescription)
                 completion(success: false, user: nil)
@@ -180,14 +182,21 @@ class UserController {
         })
     }
     
-    static func updateUser(user: User, username: String, firstName: String, lastName: String, bio: String?, url: String?, completion: (success: Bool, user: User?) -> Void) {
+    static func updateUser(user: User, username: String, firstName: String, lastName: String, bio: String?, url: String?, completion: (success: Bool) -> Void) {
         var updatedUser = user
         updatedUser.username = username
         updatedUser.firstName = firstName
         updatedUser.lastName = lastName
         updatedUser.bio = bio
         updatedUser.url = url
-        updatedUser.save()
+        updatedUser.save { error in
+            if let _ = error {
+                completion(success: false)
+            } else {
+                UserController.sharedController.currentUser = updatedUser
+                completion(success: error == nil)
+            }
+        }
     }
     
     static func logoutCurrentUser() {
