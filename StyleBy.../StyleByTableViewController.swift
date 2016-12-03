@@ -26,16 +26,15 @@ class StyleByTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         if let currentUser = UserController.sharedController.currentUser {
-            if posts.count > 0 {
-                loadTimelineForUser(currentUser)
-            }
+                loadStyleFeedForUser(currentUser)
+            
         } else {
             tabBarController?.performSegueWithIdentifier("noCurrentUserSegue", sender:nil)
         }
     }
     
-    func loadTimelineForUser (user: User) {
-        PostController.fetchTimelineForUser(user) { (posts) -> Void in
+    func loadStyleFeedForUser (user: User) {
+        PostController.fetchStyleFeedForUser(user) { (posts) -> Void in
             if let posts = posts {
                 self.posts = posts
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -75,7 +74,7 @@ class StyleByTableViewController: UITableViewController {
         guard let currentUser = UserController.sharedController.currentUser else {
             return
         }
-        loadTimelineForUser(currentUser)
+        loadStyleFeedForUser(currentUser)
     }
     
     

@@ -8,11 +8,12 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 class PostController {
     
     
-    static func fetchTimelineForUser(user: User, completion: (posts: [Post]?) -> Void) {
+    static func fetchStyleFeedForUser(user: User, completion: (posts: [Post]?) -> Void) {
         
         guard let currentUser = UserController.sharedController.currentUser else {
             completion(posts: nil)

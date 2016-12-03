@@ -150,7 +150,7 @@
                                 <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.81688207387924194" green="0.94236791133880615" blue="0.95223337411880493" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="aSk-0z-ekZ" firstAttribute="top" secondItem="Bgt-91-TQz" secondAttribute="bottom" constant="44" id="MIL-PZ-9IP"/>
                             <constraint firstAttribute="trailingMargin" secondItem="aSk-0z-ekZ" secondAttribute="trailing" id="QQ5-Wt-FDr"/>
@@ -205,7 +205,7 @@
         <scene sceneID="FYr-g2-11Z">
             <objects>
                 <navigationController title="StyleBy" automaticallyAdjustsScrollViewInsets="NO" id="fNu-UA-vhw" userLabel="StyleBy" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Timeline" id="3bU-F7-fEk"/>
+                    <tabBarItem key="tabBarItem" title="StyleFeed" id="3bU-F7-fEk"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bKp-U1-KAT">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -346,7 +346,7 @@
                         </connections>
                     </refreshControl>
                     <connections>
-                        <segue destination="3Ya-bq-1VT" kind="show" id="nKf-w5-Z9M"/>
+                        <segue destination="3Ya-bq-1VT" kind="show" identifier="stylebyToPostDetail" id="nKf-w5-Z9M"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mki-kp-dms" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -582,32 +582,36 @@
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Top By..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qdq-d0-6tf">
+                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Top By:" borderStyle="roundedRect" placeholder="Top By..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qdq-d0-6tf">
                                                             <rect key="frame" x="0.0" y="30" width="584" height="30"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                             <connections>
                                                                 <outlet property="delegate" destination="vJK-on-612" id="Zze-Y8-ywm"/>
                                                             </connections>
                                                         </textField>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Bottom By..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sf1-V5-JMP" userLabel="Bottom Designer Text Field">
+                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Bottom By:" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sf1-V5-JMP" userLabel="Bottom Designer Text Field">
                                                             <rect key="frame" x="0.0" y="67" width="584" height="30"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                             <connections>
                                                                 <outlet property="delegate" destination="vJK-on-612" id="A0Z-sE-LF1"/>
                                                             </connections>
                                                         </textField>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Shoes By..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xX7-FR-qTk">
+                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Shoes By:" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xX7-FR-qTk">
                                                             <rect key="frame" x="0.0" y="103" width="584" height="30"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                             <connections>
                                                                 <outlet property="delegate" destination="vJK-on-612" id="t6J-uZ-Drj"/>
                                                             </connections>
                                                         </textField>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Accessories By..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UM3-8v-7ro">
+                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Accessories By:" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UM3-8v-7ro">
                                                             <rect key="frame" x="0.0" y="140" width="584" height="30"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                             <connections>
@@ -840,7 +844,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.78148555755615234" green="0.92516916990280151" blue="0.94540971517562866" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="okV-Xq-eml" firstAttribute="top" relation="greaterThanOrEqual" secondItem="pku-XW-QRQ" secondAttribute="bottom" priority="750" constant="225" id="NH9-hO-eMK"/>
                             <constraint firstAttribute="leadingMargin" secondItem="pku-XW-QRQ" secondAttribute="leading" id="XWy-a5-fu8"/>
@@ -954,6 +958,7 @@
                                                 <constraint firstItem="fEb-Gp-YZj" firstAttribute="centerY" secondItem="6IR-d6-tWO" secondAttribute="centerY" id="hd0-ds-XoU"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -1003,8 +1008,8 @@
         <image name="closet6" width="661" height="996"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="zdv-1F-ZU9"/>
         <segue reference="92n-4s-i1Y"/>
-        <segue reference="Hfh-pc-btU"/>
         <segue reference="nKf-w5-Z9M"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -14,7 +14,7 @@ import UIKit
 class Fashion911Controller {
     
     
-    static func fetchTimelineForUser(user: User, completion: (fashion911: [Fashion911]?) -> Void) {
+    static func fetchStyleFeedForUser(user: User, completion: (fashion911: [Fashion911]?) -> Void) {
         
         UserController.sharedController.followedByUser(user) { (followed) in
             
