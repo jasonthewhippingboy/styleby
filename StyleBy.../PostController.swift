@@ -19,43 +19,44 @@ class PostController {
             completion(posts: nil)
             return
         }
-        postsForUser(user) { (posts) in
-            completion(posts: posts)
-        }
-//        UserController.sharedController.followedByUser(user) { (followed) in
-//            
-//            var allPosts: [Post] = []
-//            let dispatchGroup = dispatch_group_create()
-//            
-//            
-//            dispatch_group_enter(dispatchGroup)
-//            postsForUser(currentUser, completion: { (posts) -> Void in
-//                
-//                if let posts = posts {
-//                    allPosts += posts
-//                }
-//                
-//                dispatch_group_leave(dispatchGroup)
-//            })
-//            
-//            if let followed = followed {
-//                for user in followed {
-//                    
-//                    dispatch_group_enter(dispatchGroup)
-//                    postsForUser(user, completion: { (posts) in
-//                        if let posts = posts {
-//                            allPosts += posts
-//                        }
-//                        dispatch_group_leave(dispatchGroup)
-//                    })
-//                }
-//            }
-//            
-//            dispatch_group_notify(dispatchGroup, dispatch_get_main_queue(), { () -> Void in
-//                let orderedPosts = orderPosts(allPosts)
-//                completion(posts: orderedPosts)
-//            })
+        // Get posts only for current user
+//        postsForUser(user) { (posts) in
+//            completion(posts: posts)
 //        }
+        UserController.sharedController.followedByUser(user) { (followed) in
+            
+            var allPosts: [Post] = []
+            let dispatchGroup = dispatch_group_create()
+            
+            
+            dispatch_group_enter(dispatchGroup)
+            postsForUser(currentUser, completion: { (posts) -> Void in
+                
+                if let posts = posts {
+                    allPosts += posts
+                }
+                
+                dispatch_group_leave(dispatchGroup)
+            })
+            
+            if let followed = followed {
+                for user in followed {
+                    
+                    dispatch_group_enter(dispatchGroup)
+                    postsForUser(user, completion: { (posts) in
+                        if let posts = posts {
+                            allPosts += posts
+                        }
+                        dispatch_group_leave(dispatchGroup)
+                    })
+                }
+            }
+            
+            dispatch_group_notify(dispatchGroup, dispatch_get_main_queue(), { () -> Void in
+                let orderedPosts = orderPosts(allPosts)
+                completion(posts: orderedPosts)
+            })
+        }
     }
     
     static func addPost(image: UIImage, topBy: String?, bottomBy: String?, shoesBy: String?, accessoriesBy: String?, completion: (success: Bool, post: Post?) -> Void) {

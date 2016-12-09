@@ -31,7 +31,7 @@ struct User: FirebaseType {
         return User.userKey
     }
     var identifiedEndpoint: String {
-        return "\(endpoint)/\(identifier)"
+        return "\(endpoint)/\(identifier!)"
     }
     var dictionaryCopy: [String : AnyObject] {
         guard let identifier = identifier  else {

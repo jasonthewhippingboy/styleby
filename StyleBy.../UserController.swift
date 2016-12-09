@@ -16,7 +16,7 @@ class UserController {
     // TODO: Use this some time
     func fetchUserData(identifier: String, completion: (user: User?) -> Void) {
         
-        let userRef = FirebaseController.ref.child("users").child(identifier)
+        let userRef = FirebaseController.ref.child("user").child(identifier)
         userRef.observeSingleEventOfType(.Value, withBlock:  { (snapshot) in
             // Retrieve the results from the returned snapshot
             guard let userDictionary = snapshot.value as? [String: String] else {
@@ -121,16 +121,29 @@ class UserController {
     }
     
     func followedByUser(user: User, completion: (followed: [User]?) -> Void) {
-        
-        // TODO: Uncomment this and actually follow users
-//        FirebaseController.ref.child("\(user.identifiedEndpoint)/followedBy/\(followedByUser.identifier)").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
-//            guard let followedByDictionary = snapshot.value as? String else {
-//                completion(followedByUser: nil)
-//                return
-//            }
-//            let follows = followedByDictionary
-//            completion(followed: followed)
-        
+        FirebaseController.ref.child("\(user.identifiedEndpoint)/follows").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+            guard let followedByDictionary = snapshot.value as? [String: Bool] else {
+                completion(followed: nil)
+                return
+            }
+            let followIdentifiers = Array(followedByDictionary.keys)
+            let dispatchGroup = dispatch_group_create()
+            var followedUsers = [User]()
+            
+            for identifier in followIdentifiers {
+                dispatch_group_enter(dispatchGroup)
+                self.fetchUserData(identifier, completion: { (user) in
+                    if let user = user {
+                        followedUsers.append(user)
+                    }
+                    dispatch_group_leave(dispatchGroup)
+                })
+            }
+            
+            dispatch_group_notify(dispatchGroup, dispatch_get_main_queue(), { () -> Void in
+                completion(followed: followedUsers)
+            })
+        })
     }
     
     static func authenticateUser(email: String, password: String, completion: (success: Bool, user: User?) -> Void) {
