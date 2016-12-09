@@ -12,6 +12,7 @@ import Firebase
 struct FirebaseController {
 
     static let ref = FIRDatabase.database().reference()
+    static let storageRef = FIRStorage.storage().reference()
 }
 
 protocol FirebaseType {

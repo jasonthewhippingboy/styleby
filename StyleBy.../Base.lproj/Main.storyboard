@@ -582,7 +582,7 @@
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Top By:" borderStyle="roundedRect" placeholder="Top By..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qdq-d0-6tf">
+                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Top By..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qdq-d0-6tf">
                                                             <rect key="frame" x="0.0" y="30" width="584" height="30"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -591,7 +591,7 @@
                                                                 <outlet property="delegate" destination="vJK-on-612" id="Zze-Y8-ywm"/>
                                                             </connections>
                                                         </textField>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Bottom By:" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sf1-V5-JMP" userLabel="Bottom Designer Text Field">
+                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Bottom By..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sf1-V5-JMP" userLabel="Bottom Designer Text Field">
                                                             <rect key="frame" x="0.0" y="67" width="584" height="30"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -600,8 +600,8 @@
                                                                 <outlet property="delegate" destination="vJK-on-612" id="A0Z-sE-LF1"/>
                                                             </connections>
                                                         </textField>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Shoes By:" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xX7-FR-qTk">
-                                                            <rect key="frame" x="0.0" y="103" width="584" height="30"/>
+                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Shoes By..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xX7-FR-qTk">
+                                                            <rect key="frame" x="0.0" y="104" width="584" height="30"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
@@ -609,8 +609,11 @@
                                                                 <outlet property="delegate" destination="vJK-on-612" id="t6J-uZ-Drj"/>
                                                             </connections>
                                                         </textField>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Accessories By:" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UM3-8v-7ro">
-                                                            <rect key="frame" x="0.0" y="140" width="584" height="30"/>
+                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Accessories By..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UM3-8v-7ro">
+                                                            <rect key="frame" x="0.0" y="141" width="584" height="29"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="29" id="9mO-vd-r4f"/>
+                                                            </constraints>
                                                             <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
@@ -620,18 +623,18 @@
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="Sf1-V5-JMP" secondAttribute="trailing" id="CB3-Zp-wwj"/>
-                                                        <constraint firstAttribute="trailing" secondItem="UM3-8v-7ro" secondAttribute="trailing" id="Q5l-79-N8x"/>
-                                                        <constraint firstAttribute="trailing" secondItem="qdq-d0-6tf" secondAttribute="trailing" id="fsr-Ai-wHn"/>
-                                                        <constraint firstAttribute="trailing" secondItem="xX7-FR-qTk" secondAttribute="trailing" id="uPP-qL-EmF"/>
+                                                        <constraint firstItem="xX7-FR-qTk" firstAttribute="trailing" secondItem="UM3-8v-7ro" secondAttribute="trailing" id="6SE-Jv-Jq0"/>
+                                                        <constraint firstItem="Sf1-V5-JMP" firstAttribute="trailing" secondItem="xX7-FR-qTk" secondAttribute="trailing" id="Ieu-9W-21z"/>
+                                                        <constraint firstAttribute="trailing" secondItem="qdq-d0-6tf" secondAttribute="trailing" id="to5-pv-zRE"/>
+                                                        <constraint firstItem="qdq-d0-6tf" firstAttribute="trailing" secondItem="Sf1-V5-JMP" secondAttribute="trailing" id="zgQ-kc-wLk"/>
                                                     </constraints>
                                                 </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="nnD-SJ-VsT" secondAttribute="trailing" id="Ewp-aP-5gk"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="nnD-SJ-VsT" secondAttribute="bottom" id="LU1-L3-YAi"/>
-                                                <constraint firstItem="nnD-SJ-VsT" firstAttribute="top" secondItem="om6-rO-Dh9" secondAttribute="topMargin" id="eO4-Qe-i2t"/>
-                                                <constraint firstItem="nnD-SJ-VsT" firstAttribute="leading" secondItem="om6-rO-Dh9" secondAttribute="leadingMargin" id="juI-xl-YVZ"/>
+                                                <constraint firstItem="nnD-SJ-VsT" firstAttribute="leading" secondItem="om6-rO-Dh9" secondAttribute="leadingMargin" id="BrQ-hL-CBf"/>
+                                                <constraint firstItem="nnD-SJ-VsT" firstAttribute="bottom" secondItem="om6-rO-Dh9" secondAttribute="bottomMargin" id="Np2-Ki-Aeu"/>
+                                                <constraint firstItem="nnD-SJ-VsT" firstAttribute="trailing" secondItem="om6-rO-Dh9" secondAttribute="trailingMargin" id="PrR-3V-G7q"/>
+                                                <constraint firstItem="nnD-SJ-VsT" firstAttribute="top" secondItem="om6-rO-Dh9" secondAttribute="topMargin" id="bQn-qO-6aw"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -794,8 +797,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pku-XW-QRQ">
-                                <rect key="frame" x="20" y="64" width="560" height="240"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pku-XW-QRQ">
+                                <rect key="frame" x="20" y="108" width="560" height="240"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z0L-yJ-8U9">
                                         <rect key="frame" x="0.0" y="0.0" width="560" height="30"/>

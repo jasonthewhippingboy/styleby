@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class AddPhotoTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
@@ -58,12 +59,29 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
         
     }
     
+    func uploadImageToFirebaseStorage(data: NSData) {
+        let storageRef = FIRStorage.storage().reference().child("my pics").child("demoPic.jpg")
+        let uploadMetaData = FIRStorageMetadata()
+        uploadMetaData.contentType = "image/jpeg"
+        let uploadTask = storageRef.putData(data, metadata: uploadMetaData) { (metadata, error) in
+            if (error != nil) {
+                print("Post did not load \(error!.localizedDescription)")
+            } else {
+                print("Upload complete! \(metadata)")
+                
+            }
+        }
+    }
+    
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         picker.dismissViewControllerAnimated(true, completion: nil)
         
-        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage, imageData = UIImageJPEGRepresentation(image, 0.8) {
+            uploadImageToFirebaseStorage(imageData)
+            
+            self.image = image
+        }
         
-        self.image = image
         addPhotoButton.setTitle("", forState: .Normal)
         addPhotoButton.setBackgroundImage(self.image, forState: .Normal)
     }
@@ -85,7 +103,7 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
             
             //POST IMAGE
             
-            PostController.addPost(image, topBy: self.topBy, bottomBy: self.bottomBy, shoesBy: self.shoesBy, accessoriesBy: self.accessoriesBy, completion: { (success, post) -> Void in
+            PostController.addPost(image, topBy: "Top By: \(self.topBy)", bottomBy: "Bottom By: \(self.bottomBy)", shoesBy: "Shoes By: \(self.shoesBy)", accessoriesBy: "Accessories By: \(self.accessoriesBy)", completion: { (success, post) -> Void in
                 if post != nil {
                     self.dismissViewControllerAnimated(true, completion: nil)
                 } else {

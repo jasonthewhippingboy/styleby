@@ -26,7 +26,7 @@ class ImageController {
     
     static func imageForIdentifier(identifier: String, completion: (image: UIImage?) -> Void) {
         
-        FirebaseController.ref.child("images/\(identifier)").observeSingleEventOfType(.Value, withBlock: { snapshot in
+        FirebaseController.ref.child(identifier).observeSingleEventOfType(.Value, withBlock: { snapshot in
             guard let base64String = snapshot.value as? String else {
                 completion(image: nil)
                 return

@@ -122,26 +122,14 @@ class UserController {
     
     func followedByUser(user: User, completion: (followed: [User]?) -> Void) {
         
-        //        FirebaseController.newEndpoint("/users/\(user.identifier!)/follows/") { (data) -> Void in
-        //
-        //            if let json = data as? [String: AnyObject] {
-        //
-        //                var users: [User] = []
-        //
-        //                for userJson in json {
-        //
-        //                    userForIdentifier(userJson.0, completion: { (user) -> Void in
-        //
-        //                        if let user = user {
-        //                            users.append(user)
-        //                            completion(followed: users)
-        //                        }
-        //                    })
-        //                }
-        //            } else {
-        //                completion(followed: [])
-        //            }
-        //        }
+        // TODO: Uncomment this and actually follow users
+//        FirebaseController.ref.child("\(user.identifiedEndpoint)/followedBy/\(followedByUser.identifier)").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+//            guard let followedByDictionary = snapshot.value as? String else {
+//                completion(followedByUser: nil)
+//                return
+//            }
+//            let follows = followedByDictionary
+//            completion(followed: followed)
         
     }
     
