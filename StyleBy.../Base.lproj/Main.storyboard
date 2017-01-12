@@ -114,7 +114,7 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Style is unique, share yours" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pHT-9S-Eus">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Style is individual and unique, share yours" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pHT-9S-Eus">
                                         <rect key="frame" x="0.0" y="106" width="560" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -162,7 +162,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="60M-NG-AKo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1269" y="820"/>
+            <point key="canvasLocation" x="1284" y="763"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="RwN-1C-9hv">
@@ -205,7 +205,7 @@
         <scene sceneID="FYr-g2-11Z">
             <objects>
                 <navigationController title="StyleBy" automaticallyAdjustsScrollViewInsets="NO" id="fNu-UA-vhw" userLabel="StyleBy" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="StyleFeed" id="3bU-F7-fEk"/>
+                    <tabBarItem key="tabBarItem" title="StyleFeed" image="ic_style_black_24dp_1x" id="3bU-F7-fEk"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bKp-U1-KAT">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -224,7 +224,7 @@
         <scene sceneID="fb1-NL-Sqm">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sgQ-fK-ce5" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Friends" id="uHY-nh-z5g"/>
+                    <tabBarItem key="tabBarItem" title="Friends" image="ic_group_black_24dp_1x" id="uHY-nh-z5g"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="fxD-1b-C7X">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -243,7 +243,7 @@
         <scene sceneID="B2g-RD-SpY">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="XNY-dd-Rl1" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" id="2kF-N6-SkU"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="ic_person_black_24dp_1x" id="2kF-N6-SkU"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="2SD-wL-Vaz">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -277,21 +277,21 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="6Wj-Yp-utO">
                                             <rect key="frame" x="8" y="8" width="584" height="241"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2iG-pe-4uq">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2iG-pe-4uq">
                                                     <rect key="frame" x="0.0" y="0.0" width="584" height="220"/>
                                                 </imageView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hZJ-18-w8z">
+                                                <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hZJ-18-w8z">
                                                     <rect key="frame" x="0.0" y="220" width="584" height="21"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Likes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJ2-OG-qqw">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Likes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJ2-OG-qqw">
                                                             <rect key="frame" x="0.0" y="0.0" width="292" height="21"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comments" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mLF-oW-sdB">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Comments" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mLF-oW-sdB">
                                                             <rect key="frame" x="292" y="0.0" width="292" height="21"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -332,7 +332,7 @@
                                 <segue destination="h0q-aw-Lg1" kind="presentation" identifier="Fashion911" id="rm3-Yj-IND"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="fqo-we-FWt">
+                        <barButtonItem key="rightBarButtonItem" image="ic_add_a_photo_black_24dp_1x" id="fqo-we-FWt">
                             <color key="tintColor" red="0.2325125633" green="0.56636534689999996" blue="0.098032752060000006" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <segue destination="NYQ-UF-Li7" kind="presentation" identifier="AddPhoto" id="PNJ-2c-Xas"/>
@@ -1009,6 +1009,10 @@
     </scenes>
     <resources>
         <image name="closet6" width="661" height="996"/>
+        <image name="ic_add_a_photo_black_24dp_1x" width="24" height="24"/>
+        <image name="ic_group_black_24dp_1x" width="24" height="24"/>
+        <image name="ic_person_black_24dp_1x" width="24" height="24"/>
+        <image name="ic_style_black_24dp_1x" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="zdv-1F-ZU9"/>
