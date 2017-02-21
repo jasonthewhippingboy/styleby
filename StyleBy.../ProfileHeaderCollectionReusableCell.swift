@@ -22,21 +22,21 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     
     var delegate: ProfileHeaderCollectionReusableViewDelegate?
     
-    func updateWithUser(user: User) {
+    func updateWithUser(_ user: User) {
         if let bio = user.bio {
             bioLabel.text = bio
         } else {
-            bioLabel.hidden = true
+            bioLabel.isHidden = true
         }
         
         if let url = user.url {
-            urlButton.setTitle(url, forState: .Normal)
+            urlButton.setTitle(url, for: UIControlState())
         } else {
-            urlButton.hidden = true
+            urlButton.isHidden = true
         }
         
         if user == UserController.sharedController.currentUser {
-            followButton.setTitle("Logout", forState: .Normal)
+            followButton.setTitle("Logout", for: UIControlState())
         } else {
             
             guard let currentUser = UserController.sharedController.currentUser else {
@@ -44,9 +44,9 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
             }
             UserController.sharedController.userFollowsUser(currentUser, followsUser: user, completion: { (follows) -> Void in
                 if (follows != nil) {
-                    self.followButton.setTitle("Unfollow", forState: .Normal)
+                    self.followButton.setTitle("Unfollow", for: UIControlState())
                 } else {
-                    self.followButton.setTitle("Follow", forState: .Normal)
+                    self.followButton.setTitle("Follow", for: UIControlState())
                 }
             })
             

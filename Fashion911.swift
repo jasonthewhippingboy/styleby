@@ -10,12 +10,12 @@ import Foundation
 
 struct Fashion911: Equatable, FirebaseType {
     
-    private let kUsername = "username"
-    private let kImageEndpoint = "image"
-    private let kWhatsYourEmergency = "whatsYourEmergency"
-    private let kFashion911Comment = "fashion911comment"
-    private let kFashion911Like = "fashion911like"
-    private let kIdentifier = "identifier"
+    fileprivate let kUsername = "username"
+    fileprivate let kImageEndpoint = "image"
+    fileprivate let kWhatsYourEmergency = "whatsYourEmergency"
+    fileprivate let kFashion911Comment = "fashion911comment"
+    fileprivate let kFashion911Like = "fashion911like"
+    fileprivate let kIdentifier = "identifier"
     
     let whatsYourEmergency: String?
     let username: String
@@ -31,10 +31,10 @@ struct Fashion911: Equatable, FirebaseType {
         return "images/\(identifier)"
     }
     var dictionaryCopy: [String : AnyObject] {
-        var dictionaryCopy: [String: AnyObject] = [kUsername : username, kImageEndpoint : imageEndpoint, kFashion911Comment : fashion911comment.map { $0.dictionaryCopy }, kFashion911Like : fashion911like.map { $0.dictionaryCopy }]
+        var dictionaryCopy: [String: AnyObject] = [kUsername : username as AnyObject, kImageEndpoint : imageEndpoint as AnyObject, kFashion911Comment : fashion911comment as AnyObject,kFashion911Like : fashion911like as AnyObject]
         
         if let whatsYourEmergency = whatsYourEmergency {
-            dictionaryCopy.updateValue(whatsYourEmergency, forKey: kWhatsYourEmergency)
+            dictionaryCopy.updateValue(whatsYourEmergency as AnyObject, forKey: kWhatsYourEmergency)
         }
         
         return dictionaryCopy

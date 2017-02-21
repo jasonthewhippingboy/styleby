@@ -12,27 +12,27 @@ import Firebase
 
 class ImageController {
     
-    static func uploadImage(image: UIImage, identifier: String, completion: (success: Bool) -> Void) {
+    static func uploadImage(_ image: UIImage, identifier: String, completion: @escaping (_ success: Bool) -> Void) {
         
         if let base64Image = image.base64String {
             let base = FirebaseController.ref.child("images")
             base.child(identifier).setValue(base64Image, withCompletionBlock: { (error, ref) in
-                guard error == nil else { completion(success: false); return }
-                completion(success: true)
+                guard error == nil else { completion(false); return }
+                completion(true)
             })
             
         }
     }
     
-    static func imageForIdentifier(identifier: String, completion: (image: UIImage?) -> Void) {
+    static func imageForIdentifier(_ identifier: String, completion: @escaping (_ image: UIImage?) -> Void) {
         
-        FirebaseController.ref.child(identifier).observeSingleEventOfType(.Value, withBlock: { snapshot in
+        FirebaseController.ref.child(identifier).observeSingleEvent(of: .value, with: { snapshot in
             guard let base64String = snapshot.value as? String else {
-                completion(image: nil)
+                completion(nil)
                 return
             }
           let image = UIImage(base64: base64String)
-            completion (image: image)
+            completion (image)
         })
     }
 }
@@ -43,12 +43,12 @@ extension UIImage {
             return nil
         }
         
-        return data.base64EncodedStringWithOptions(.EncodingEndLineWithCarriageReturn)
+        return data.base64EncodedString(options: .endLineWithCarriageReturn)
     }
     
     convenience init?(base64: String) {
         
-        if let imageData = NSData(base64EncodedString: base64, options: .IgnoreUnknownCharacters) {
+        if let imageData = Data(base64Encoded: base64, options: .ignoreUnknownCharacters) {
             self.init(data: imageData)
         } else {
             return nil

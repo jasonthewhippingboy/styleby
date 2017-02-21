@@ -365,6 +365,7 @@
 					ED1E9F7E1D96F2850078AEA3 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 8WU7GKZH78;
+						LastSwiftMigration = 0820;
 					};
 					ED1E9F921D96F2860078AEA3 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -372,6 +373,7 @@
 					};
 					ED1E9F9D1D96F2860078AEA3 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0820;
 						TestTargetID = ED1E9F7E1D96F2850078AEA3;
 					};
 				};
@@ -730,6 +732,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -746,6 +749,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "dev.StyleBy---";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -783,6 +787,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "dev.StyleBy---UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = StyleBy...;
 			};
 			name = Debug;
@@ -795,6 +800,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "dev.StyleBy---UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = StyleBy...;
 			};
 			name = Release;

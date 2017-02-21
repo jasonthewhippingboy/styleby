@@ -10,88 +10,112 @@ import Foundation
 import Firebase
 
 import UIKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class Fashion911Controller {
     
     
-    static func fetchStyleFeedForUser(user: User, completion: (fashion911: [Fashion911]?) -> Void) {
+    static func fetchStyleFeedForUser(_ user: User, completion: @escaping (_ fashion911: [Fashion911]?) -> Void) {
         
         UserController.sharedController.followedByUser(user) { (followed) in
             
             var allFashion911: [Fashion911] = []
-            let dispatchGroup = dispatch_group_create()
+            let dispatchGroup = DispatchGroup()
             guard let currentUser = UserController.sharedController.currentUser else {
-                completion(fashion911: nil)
+                completion(nil)
                 return
             }
             
-            dispatch_group_enter(dispatchGroup)
+            dispatchGroup.enter()
             fashion911ForUser(currentUser, completion: { (fashion911) -> Void in
                 
                 if let fashion911 = fashion911 {
                     allFashion911 += fashion911
                 }
                 
-                dispatch_group_leave(dispatchGroup)
+                dispatchGroup.leave()
             })
             
             if let followed = followed {
                 for user in followed {
                     
-                    dispatch_group_enter(dispatchGroup)
+                    dispatchGroup.enter()
                     fashion911ForUser(user, completion: { (fashion911) in
                         if let fashion911 = fashion911 {
                             allFashion911 += fashion911
                         }
-                        dispatch_group_leave(dispatchGroup)
+                        dispatchGroup.leave()
                     })
                 }
             }
             
-            dispatch_group_notify(dispatchGroup, dispatch_get_main_queue(), { () -> Void in
+            dispatchGroup.notify(queue: DispatchQueue.main, execute: { () -> Void in
                 let orderedFashion911 = orderFashion911(allFashion911)
-                completion(fashion911: orderedFashion911)
+                completion(orderedFashion911)
             })
         }
     }
     
-    static func addFashion911(image: UIImage, whatsYourEmergency: String?, completion: (success: Bool, fashion911: Fashion911?) -> Void) {
+    static func addFashion911(_ image: UIImage, whatsYourEmergency: String?, completion: @escaping (_ success: Bool, _ fashion911: Fashion911?) -> Void) {
         
         guard let currentUser = UserController.sharedController.currentUser else {
-            completion(success: false, fashion911: nil)
+            completion(false, nil)
             return
         }
         
         var fashion911 = Fashion911(whatsYourEmergency: whatsYourEmergency, username: currentUser.username)
         fashion911.save()
         
-        guard let fashionIdentifier = fashion911.identifier else { completion(success: false, fashion911: nil); return }
+        guard let fashionIdentifier = fashion911.identifier else { completion(false, nil); return }
         
         ImageController.uploadImage(image, identifier: fashionIdentifier) { (success) -> Void in
             if success {
-                completion(success: true, fashion911: fashion911)
+                completion(true,fashion911)
             } else {
-                completion(success: false, fashion911: nil)
+                completion(false,nil)
             }
         }
     }
     
-    static func fashion911FromIdentifier(identifier: String, completion: (fashion911: Fashion911?) -> Void) {
+    static func fashion911FromIdentifier(_ identifier: String, completion: @escaping (_ fashion911: Fashion911?) -> Void) {
         
-        FirebaseController.ref.child("fashion911\(identifier)").observeSingleEventOfType(.Value, withBlock: { snapshot in
+        FirebaseController.ref.child("fashion911\(identifier)").observeSingleEvent(of: .value, with: { snapshot in
             guard let userDictionary = snapshot.value as? [String: String] else {
-                completion(fashion911: nil)
+                completion(nil)
                 return
             }
             
-            let fashion911 = Fashion911(dictionary: userDictionary, identifier: identifier)
-            completion(fashion911: fashion911)
+            let fashion911 = Fashion911(dictionary: userDictionary as [String : AnyObject], identifier: identifier)
+            completion(fashion911)
         })
     }
     
-    static func fashion911ForUser(user: User, completion: (fashion911: [Fashion911]?) -> Void) {
+    static func fashion911ForUser(_ user: User, completion: @escaping (_ fashion911: [Fashion911]?) -> Void) {
         
-        FirebaseController.ref.child("fashion911").queryOrderedByChild("username").queryEqualToValue(user.username).observeSingleEventOfType(.Value, withBlock: { snapshot in
+        FirebaseController.ref.child("fashion911").queryOrdered(byChild: "username").queryEqual(toValue: user.username).observeSingleEvent(of: .value, with: { snapshot in
             
             
             if let fashion911Dictionaries = snapshot.value as? [String: AnyObject] {
@@ -100,26 +124,26 @@ class Fashion911Controller {
                 
                 let orderedFashion911 = orderFashion911(fashion911)
                 
-                completion(fashion911: orderedFashion911)
+                completion(orderedFashion911)
                 
             } else {
                 
-                completion(fashion911: nil)
+                completion(nil)
             }
         })
         
     }
     
-    static func deleteFashion911(fashion911: Fashion911) {
+    static func deleteFashion911(_ fashion911: Fashion911) {
         fashion911.delete()
         
     }
     
-    static func addFashion911CommentWithTextToFashion911(text: String, fashion911: Fashion911, completion: (success: Bool, fashion911: Fashion911?) -> Void?) {
+    static func addFashion911CommentWithTextToFashion911(_ text: String, fashion911: Fashion911, completion: @escaping (_ success: Bool, _ fashion911: Fashion911?) -> Void?) {
         if let fashion911Identifier = fashion911.identifier {
             
             guard let currentUser = UserController.sharedController.currentUser else {
-                completion(success: false, fashion911: nil)
+                completion(false, nil)
                 return
             }
             
@@ -127,7 +151,7 @@ class Fashion911Controller {
             fashion911comment.save()
             
             Fashion911Controller.fashion911FromIdentifier(fashion911comment.fashion911Identifier) { (fashion911) -> Void in
-                completion(success: true, fashion911: fashion911)
+                completion(true, fashion911)
             }
         } else {
             
@@ -135,32 +159,32 @@ class Fashion911Controller {
             fashion911.save()
             
             guard let currentUser = UserController.sharedController.currentUser else {
-                completion(success: false, fashion911: nil)
+                completion(false, nil)
                 return
             }
             var fashion911Comment = Fashion911Comment(username: currentUser.username, text: text, fashion911Identifier: fashion911.identifier!)
             fashion911Comment.save()
             
             Fashion911Controller.fashion911FromIdentifier(fashion911Comment.fashion911Identifier) { (fashion911) -> Void in
-                completion(success: true, fashion911: fashion911)
+                completion(true, fashion911)
             }
         }
     }
     
-    static func deleteFashion911Comment(fashion911comment: Fashion911Comment, completion: (success: Bool, fashion911: Fashion911?) -> Void) {
+    static func deleteFashion911Comment(_ fashion911comment: Fashion911Comment, completion: @escaping (_ success: Bool, _ fashion911: Fashion911?) -> Void) {
         fashion911comment.delete()
         
         Fashion911Controller.fashion911FromIdentifier(fashion911comment.fashion911Identifier) { (fashion911) -> Void in
-            completion(success: true, fashion911: fashion911)
+            completion(true, fashion911)
         }
     }
     
-    static func addFashion911LikeToFashion911(fashion911: Fashion911, completion: (success: Bool, fashion911: Fashion911?) -> Void) {
+    static func addFashion911LikeToFashion911(_ fashion911: Fashion911, completion: @escaping (_ success: Bool, _ fashion911: Fashion911?) -> Void) {
         
         if let fashion911Identifier = fashion911.identifier {
             
             guard let currentUser = UserController.sharedController.currentUser else {
-                completion(success: false, fashion911: nil)
+                completion(false, nil)
                 return
             }
             
@@ -173,7 +197,7 @@ class Fashion911Controller {
             fashion911.save()
             
             guard let currentUser = UserController.sharedController.currentUser else {
-                completion(success: false, fashion911: nil)
+                completion(false, nil)
                 return
             }
             var fashion911Like = Fashion911Like(username: currentUser.username, postIdentifier: fashion911.identifier!)
@@ -181,22 +205,22 @@ class Fashion911Controller {
         }
         
         Fashion911Controller.fashion911FromIdentifier(fashion911.identifier!, completion: { (fashion911) -> Void in
-            completion(success: true, fashion911: fashion911)
+            completion(true, fashion911)
         })
     }
     
-    static func deleteLike(fashion911Like: Fashion911Like, completion: (success: Bool, fashion911: Fashion911?) -> Void) {
+    static func deleteLike(_ fashion911Like: Fashion911Like, completion: @escaping (_ success: Bool, _ fashion911: Fashion911?) -> Void) {
         
         fashion911Like.delete()
         
         Fashion911Controller.fashion911FromIdentifier(fashion911Like.postIdentifier) { (fashion911) -> Void in
-            completion(success: true, fashion911: fashion911)
+            completion(true, fashion911)
         }
     }
     
-    static func orderFashion911(fashion911: [Fashion911]) -> [Fashion911] {
+    static func orderFashion911(_ fashion911: [Fashion911]) -> [Fashion911] {
         
-        return fashion911.sort({$0.0.identifier > $0.1.identifier})
+        return fashion911.sorted(by: {$0.0.identifier > $0.1.identifier})
     }
     
 }

@@ -29,39 +29,39 @@ class Fashion911TableViewController: UITableViewController, UIImagePickerControl
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         
-        let alert = UIAlertController(title: "Select Photo Location", message: nil, preferredStyle: .ActionSheet)
+        let alert = UIAlertController(title: "Select Photo Location", message: nil, preferredStyle: .actionSheet)
         
-        if UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) {
-            alert.addAction(UIAlertAction(title: "Photo Library", style: .Default, handler: { (_) -> Void in
-                imagePicker.sourceType = .PhotoLibrary
-                self.presentViewController(imagePicker, animated: true, completion: nil)
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { (_) -> Void in
+                imagePicker.sourceType = .photoLibrary
+                self.present(imagePicker, animated: true, completion: nil)
             }))
         }
         
-        if UIImagePickerController.isSourceTypeAvailable(.Camera) {
-            alert.addAction(UIAlertAction(title: "Camera", style: .Default, handler: { (_) -> Void in
-                imagePicker.sourceType = .Camera
-                self.presentViewController(imagePicker, animated: true, completion: nil)
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (_) -> Void in
+                imagePicker.sourceType = .camera
+                self.present(imagePicker, animated: true, completion: nil)
             }))
         }
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
         
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        picker.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        picker.dismiss(animated: true, completion: nil)
         
         let image = info[UIImagePickerControllerOriginalImage] as? UIImage
         
         self.image = image
-        fashion911Button.setTitle("", forState: .Normal)
-        fashion911Button.setBackgroundImage(self.image, forState: .Normal)
+        fashion911Button.setTitle("", for: UIControlState())
+        fashion911Button.setBackgroundImage(self.image, for: UIControlState())
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         whatsYourEmergency = textField.text
         textField.resignFirstResponder()
         return true
@@ -75,18 +75,18 @@ class Fashion911TableViewController: UITableViewController, UIImagePickerControl
             
            Fashion911Controller.addFashion911(image, whatsYourEmergency: self.whatsYourEmergency, completion: { (success, fashion911) -> Void in
                 if fashion911 != nil {
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                    self.dismiss(animated: true, completion: nil)
                 } else {
-                    let failedAlert = UIAlertController(title: "Failed!", message: "Image failed to Fashion911. Please try again.", preferredStyle: .Alert)
-                    failedAlert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-                    self.presentViewController(failedAlert, animated: true, completion: nil)
+                    let failedAlert = UIAlertController(title: "Failed!", message: "Image failed to Fashion911. Please try again.", preferredStyle: .alert)
+                    failedAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(failedAlert, animated: true, completion: nil)
                 }
             })
         }
     }
     
     @IBAction func cancelButtonTapped() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     /*

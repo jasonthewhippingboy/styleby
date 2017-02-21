@@ -11,8 +11,8 @@ import Foundation
 
 struct Fashion911Like: FirebaseType {
     
-    private let kPost = "post"
-    private let kUsername = "username"
+    fileprivate let kPost = "post"
+    fileprivate let kUsername = "username"
     
     let username: String
     let postIdentifier: String
@@ -21,7 +21,7 @@ struct Fashion911Like: FirebaseType {
         return "/posts/\(self.postIdentifier)/fashion911likes/"
     }
     var dictionaryCopy: [String : AnyObject] {
-        return [kUsername: username, kPost: postIdentifier]
+        return [kUsername: username as AnyObject, kPost: postIdentifier as AnyObject]
     }
     
     init?(dictionary: [String : AnyObject], identifier: String) {

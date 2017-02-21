@@ -10,9 +10,9 @@ import Foundation
 
 struct Comment: Equatable, FirebaseType {
     
-    private let kPost = "post"
-    private let kUsername = "username"
-    private let kText = "text"
+    fileprivate let kPost = "post"
+    fileprivate let kUsername = "username"
+    fileprivate let kText = "text"
     
     let username: String
     let text: String
@@ -22,7 +22,7 @@ struct Comment: Equatable, FirebaseType {
         return "/posts/\(postIdentifier)/comments/"
     }
     var dictionaryCopy: [String : AnyObject] {
-        return [kPost : postIdentifier, kUsername : username, kText : text]
+        return [kPost : postIdentifier as AnyObject, kUsername : username as AnyObject, kText : text as AnyObject]
     }
     
     init(username: String, text: String, postIdentifier: String, identifier: String? = nil) {

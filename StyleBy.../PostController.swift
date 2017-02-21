@@ -9,14 +9,38 @@
 import Foundation
 import UIKit
 import Firebase
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class PostController {
     
     
-    static func fetchStyleFeedForUser(user: User, completion: (posts: [Post]?) -> Void) {
+    static func fetchStyleFeedForUser(_ user: User, completion: @escaping (_ posts: [Post]?) -> Void) {
         
         guard let currentUser = UserController.sharedController.currentUser else {
-            completion(posts: nil)
+            completion(nil)
             return
         }
         // Get posts only for current user
@@ -26,74 +50,74 @@ class PostController {
         UserController.sharedController.followedByUser(user) { (followed) in
             
             var allPosts: [Post] = []
-            let dispatchGroup = dispatch_group_create()
+            let dispatchGroup = DispatchGroup()
             
             
-            dispatch_group_enter(dispatchGroup)
+            dispatchGroup.enter()
             postsForUser(currentUser, completion: { (posts) -> Void in
                 
                 if let posts = posts {
                     allPosts += posts
                 }
                 
-                dispatch_group_leave(dispatchGroup)
+                dispatchGroup.leave()
             })
             
             if let followed = followed {
                 for user in followed {
                     
-                    dispatch_group_enter(dispatchGroup)
+                    dispatchGroup.enter()
                     postsForUser(user, completion: { (posts) in
                         if let posts = posts {
                             allPosts += posts
                         }
-                        dispatch_group_leave(dispatchGroup)
+                        dispatchGroup.leave()
                     })
                 }
             }
             
-            dispatch_group_notify(dispatchGroup, dispatch_get_main_queue(), { () -> Void in
+            dispatchGroup.notify(queue: DispatchQueue.main, execute: { () -> Void in
                 let orderedPosts = orderPosts(allPosts)
-                completion(posts: orderedPosts)
+                completion(orderedPosts)
             })
         }
     }
     
-    static func addPost(image: UIImage, topBy: String?, bottomBy: String?, shoesBy: String?, accessoriesBy: String?, completion: (success: Bool, post: Post?) -> Void) {
+    static func addPost(_ image: UIImage, topBy: String?, bottomBy: String?, shoesBy: String?, accessoriesBy: String?, completion: @escaping (_ success: Bool, _ post: Post?) -> Void) {
         
         guard let currentUser = UserController.sharedController.currentUser else {
-            completion(success: false, post: nil)
+            completion(false, nil)
             return
         }
         var post = Post(topBy: topBy, bottomBy: bottomBy, shoesBy: shoesBy, accessoriesBy: accessoriesBy, username: currentUser.username)
         post.save()
-        guard let postIdentifier = post.identifier else { completion(success: false, post: nil); return }
+        guard let postIdentifier = post.identifier else { completion(false, nil); return }
         
         ImageController.uploadImage(image, identifier: postIdentifier) { (success) -> Void in
             
             if success {
-                completion(success: true, post: post)
+                completion(true,post)
             } else {
-                completion(success: false, post: nil)
+                completion(false,nil)
             }
         }
     }
     
-    static func postFromIdentifier(identifier: String, completion: (post: Post?) -> Void) {
+    static func postFromIdentifier(_ identifier: String, completion: @escaping (_ post: Post?) -> Void) {
         
-        FirebaseController.ref.child("posts/\(identifier)").observeSingleEventOfType(.Value, withBlock: { snapshot in
+        FirebaseController.ref.child("posts/\(identifier)").observeSingleEvent(of: .value, with: { snapshot in
             guard let userDictionary = snapshot.value as? [String: String] else {
-                completion(post: nil)
+                completion(nil)
                 return
             }
-            let post = Post(dictionary: userDictionary, identifier: identifier)
-            completion(post: post)
+            let post = Post(dictionary: userDictionary as [String : AnyObject], identifier: identifier)
+            completion(post)
         })
     }
     
-    static func postsForUser(user: User, completion: (posts: [Post]?) -> Void) {
+    static func postsForUser(_ user: User, completion: @escaping (_ posts: [Post]?) -> Void) {
         
-        FirebaseController.ref.child("posts").queryOrderedByChild("username").queryEqualToValue(user.username).observeSingleEventOfType(.Value, withBlock: { snapshot in
+        FirebaseController.ref.child("posts").queryOrdered(byChild: "username").queryEqual(toValue: user.username).observeSingleEvent(of: .value, with: { snapshot in
             
             
             if let postDictionaries = snapshot.value as? [String: AnyObject] {
@@ -102,26 +126,26 @@ class PostController {
                 
                 let orderedPosts = orderPosts(posts)
                 
-                completion(posts: orderedPosts)
+                completion(orderedPosts)
                 
             } else {
                 
-                completion(posts: nil)
+                completion(nil)
             }
         })
         
     }
     
-    static func deletePost(post: Post) {
+    static func deletePost(_ post: Post) {
         post.delete()
         
     }
     
-    static func addCommentWithTextToPost(text: String, post: Post, completion: (success: Bool, post: Post?) -> Void?) {
+    static func addCommentWithTextToPost(_ text: String, post: Post, completion: @escaping (_ success: Bool, _ post: Post?) -> Void?) {
         if let postIdentifier = post.identifier {
             
             guard let currentUser = UserController.sharedController.currentUser else {
-                completion(success: false, post: nil)
+                completion(false, nil)
                 return
             }
             
@@ -129,7 +153,7 @@ class PostController {
             comment.save()
             
             PostController.postFromIdentifier(comment.postIdentifier) { (post) -> Void in
-                completion(success: true, post: post)
+                completion(true, post)
             }
         } else {
             
@@ -137,32 +161,32 @@ class PostController {
             post.save()
             
             guard let currentUser = UserController.sharedController.currentUser else {
-                completion(success: false, post: nil)
+                completion(false, nil)
                 return
             }
             var comment = Comment(username: currentUser.username, text: text, postIdentifier: post.identifier!)
             comment.save()
             
             PostController.postFromIdentifier(comment.postIdentifier) { (post) -> Void in
-                completion(success: true, post: post)
+                completion(true, post)
             }
         }
     }
     
-    static func deleteComment(comment: Comment, completion: (success: Bool, post: Post?) -> Void) {
+    static func deleteComment(_ comment: Comment, completion: @escaping (_ success: Bool, _ post: Post?) -> Void) {
         comment.delete()
         
         PostController.postFromIdentifier(comment.postIdentifier) { (post) -> Void in
-            completion(success: true, post: post)
+            completion(true, post)
         }
     }
     
-    static func addLikeToPost(post: Post, completion: (success: Bool, post: Post?) -> Void) {
+    static func addLikeToPost(_ post: Post, completion: @escaping (_ success: Bool, _ post: Post?) -> Void) {
         
         if let postIdentifier = post.identifier {
             
             guard let currentUser = UserController.sharedController.currentUser else {
-                completion(success: false, post: nil)
+                completion(false, nil)
                 return
             }
             
@@ -175,7 +199,7 @@ class PostController {
             post.save()
             
             guard let currentUser = UserController.sharedController.currentUser else {
-                completion(success: false, post: nil)
+                completion(false, nil)
                 return
             }
             var like = Like(username: currentUser.username, postIdentifier: post.identifier!)
@@ -183,22 +207,22 @@ class PostController {
         }
         
         PostController.postFromIdentifier(post.identifier!, completion: { (post) -> Void in
-            completion(success: true, post: post)
+            completion(true, post)
         })
     }
     
-    static func deleteLike(like: Like, completion: (success: Bool, post: Post?) -> Void) {
+    static func deleteLike(_ like: Like, completion: @escaping (_ success: Bool, _ post: Post?) -> Void) {
         
         like.delete()
         
         PostController.postFromIdentifier(like.postIdentifier) { (post) -> Void in
-            completion(success: true, post: post)
+            completion(true, post)
         }
     }
     
-    static func orderPosts(posts: [Post]) -> [Post] {
+    static func orderPosts(_ posts: [Post]) -> [Post] {
         
-        return posts.sort({$0.0.identifier > $0.1.identifier})
+        return posts.sorted(by: {$0.0.identifier > $0.1.identifier})
     }
     
     //    static func mockPosts() -> [Post] {

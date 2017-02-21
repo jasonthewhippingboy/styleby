@@ -10,15 +10,15 @@ import Foundation
 
 class Post: Equatable, FirebaseType {
     
-    private let kUsername = "username"
-    private let kImageEndpoint = "image"
-    private let kTopBy = "top"
-    private let kBottomBy = "bottom"
-    private let kShoesBy = "shoes"
-    private let kAccessoriesBy = "accessories"
-    private let kComments = "comments"
-    private let kLikes = "likes"
-    private let kIdentifier = "identifier"
+    fileprivate let kUsername = "username"
+    fileprivate let kImageEndpoint = "image"
+    fileprivate let kTopBy = "top"
+    fileprivate let kBottomBy = "bottom"
+    fileprivate let kShoesBy = "shoes"
+    fileprivate let kAccessoriesBy = "accessories"
+    fileprivate let kComments = "comments"
+    fileprivate let kLikes = "likes"
+    fileprivate let kIdentifier = "identifier"
     
     let topBy: String?
     let bottomBy: String?
@@ -38,19 +38,19 @@ class Post: Equatable, FirebaseType {
     }
     
     var dictionaryCopy: [String: AnyObject] {
-        var dictionaryCopy: [String: AnyObject] = [kUsername : username, kComments : comments.map { $0.dictionaryCopy }, kLikes : likes.map { $0.dictionaryCopy }]
+        var dictionaryCopy: [String: AnyObject] = [kUsername : username as AnyObject, kComments : comments as AnyObject, kLikes : likes as AnyObject]
         
         if let topBy = topBy {
-            dictionaryCopy.updateValue(topBy, forKey: kTopBy)
+            dictionaryCopy.updateValue(topBy as AnyObject, forKey: kTopBy)
         }
         if let bottomBy = bottomBy {
-            dictionaryCopy.updateValue(bottomBy, forKey: kBottomBy)
+            dictionaryCopy.updateValue(bottomBy as AnyObject, forKey: kBottomBy)
         }
         if let shoesBy = shoesBy {
-            dictionaryCopy.updateValue(shoesBy, forKey: kShoesBy)
+            dictionaryCopy.updateValue(shoesBy as AnyObject, forKey: kShoesBy)
         }
         if let accessoriesBy = accessoriesBy {
-            dictionaryCopy.updateValue(accessoriesBy, forKey: kAccessoriesBy)
+            dictionaryCopy.updateValue(accessoriesBy as AnyObject, forKey: kAccessoriesBy)
         }
         return dictionaryCopy
     }

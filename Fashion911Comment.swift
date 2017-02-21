@@ -10,9 +10,9 @@ import Foundation
 
 struct Fashion911Comment: Equatable, FirebaseType {
     
-    private let kFashion911 = "fashion911"
-    private let kUsername = "username"
-    private let kText = "text"
+    fileprivate let kFashion911 = "fashion911"
+    fileprivate let kUsername = "username"
+    fileprivate let kText = "text"
     
     let username: String
     let text: String
@@ -22,7 +22,7 @@ struct Fashion911Comment: Equatable, FirebaseType {
         return "/fashion911/\(fashion911Identifier)/comments/"
     }
     var dictionaryCopy: [String : AnyObject] {
-        return [kFashion911 : fashion911Identifier, kUsername : username, kText : text]
+        return [kFashion911 : fashion911Identifier as AnyObject, kUsername : username as AnyObject, kText : text as AnyObject]
     }
     
     init(username: String, text: String, fashion911Identifier: String, identifier: String? = nil) {

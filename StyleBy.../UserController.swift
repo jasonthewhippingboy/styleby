@@ -11,20 +11,20 @@ import Firebase
 
 class UserController {
     
-    private let kUser = "userKey"
+    fileprivate let kUser = "userKey"
     
     // TODO: Use this some time
-    func fetchUserData(identifier: String, completion: (user: User?) -> Void) {
+    func fetchUserData(_ identifier: String, completion: @escaping (_ user: User?) -> Void) {
         
         let userRef = FirebaseController.ref.child("user").child(identifier)
-        userRef.observeSingleEventOfType(.Value, withBlock:  { (snapshot) in
+        userRef.observeSingleEvent(of: .value, with:  { (snapshot) in
             // Retrieve the results from the returned snapshot
             guard let userDictionary = snapshot.value as? [String: String] else {
-                completion(user: nil)
+                completion(nil)
                 return
             }
-            let user = User(dictionary: userDictionary, identifier: identifier)
-            completion(user: user)
+            let user = User(dictionary: userDictionary as [String : AnyObject], identifier: identifier)
+            completion(user)
             
             return
             
@@ -34,7 +34,7 @@ class UserController {
         get {
             
             
-            guard let userDictionary = NSUserDefaults.standardUserDefaults().valueForKey(kUser) as? [String: AnyObject],
+            guard let userDictionary = UserDefaults.standard.value(forKey: kUser) as? [String: AnyObject],
             let userId = FIRAuth.auth()?.currentUser?.uid else {
                 return nil
             }
@@ -45,11 +45,11 @@ class UserController {
         set {
             
             if let newValue = newValue {
-                NSUserDefaults.standardUserDefaults().setValue(newValue.dictionaryCopy, forKey: kUser)
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.setValue(newValue.dictionaryCopy, forKey: kUser)
+                UserDefaults.standard.synchronize()
             } else {
-                NSUserDefaults.standardUserDefaults().removeObjectForKey(kUser)
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.removeObject(forKey: kUser)
+                UserDefaults.standard.synchronize()
             }
         }
     }
@@ -59,99 +59,99 @@ class UserController {
     
     static let sharedController = UserController()
     
-    static func userForIdentifier(identifier: String, completion: (user: User?) -> Void) {
-        FirebaseController.ref.child(User.userKey).child(identifier).observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+    static func userForIdentifier(_ identifier: String, completion: @escaping (_ user: User?) -> Void) {
+        FirebaseController.ref.child(User.userKey).child(identifier).observeSingleEvent(of: .value, with: { (snapshot) in
             guard let userDictionary = snapshot.value as? [String: String] else {
-                completion(user: nil)
+                completion(nil)
                 return
             }
             // Create a user object with the data returned
-            let user = User(dictionary: userDictionary, identifier: identifier)
-            completion(user: user)
+            let user = User(dictionary: userDictionary as [String : AnyObject], identifier: identifier)
+            completion(user)
         })
     }
     
-    static func fetchAllUsers(completion: (users: [User]?) -> Void) {
-        FirebaseController.ref.child(User.userKey).queryOrderedByKey().observeSingleEventOfType(.Value, withBlock: { snapshot in
+    static func fetchAllUsers(_ completion: @escaping (_ users: [User]?) -> Void) {
+        FirebaseController.ref.child(User.userKey).queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
             guard let userDictionary = snapshot.value as? [User] else {
-                completion(users: nil)
+                completion(nil)
                 return
             }
             let user = userDictionary
-            completion(users: user)
+            completion(user)
             //            }
         })
     }
     
-    func followUser(user: User, completion: (success: Bool) -> Void) {
+    func followUser(_ user: User, completion: (_ success: Bool) -> Void) {
         
         guard let currentUser = currentUser else {
-            completion(success: false)
+            completion(false)
             return
         }
         
         FirebaseController.ref.child("\(currentUser.identifiedEndpoint)/follows/\(user.identifier)").setValue(true)
         
-        completion(success: true)
+        completion(true)
     }
     
     
-    func unfollowUser(user: User, completion: (success: Bool) -> Void) {
+    func unfollowUser(_ user: User, completion: (_ success: Bool) -> Void) {
         
         guard let currentUser = currentUser else {
-            completion(success: false)
+            completion(false)
             return
         }
         
         FirebaseController.ref.child("\(currentUser.identifiedEndpoint)/follows/\(user.identifier)").removeValue()
         
-        completion(success: true)
+        completion(true)
     }
     
-    func userFollowsUser(user: User, followsUser: User, completion: (follows: String?) -> Void ) {
+    func userFollowsUser(_ user: User, followsUser: User, completion: @escaping (_ follows: String?) -> Void ) {
         
-        FirebaseController.ref.child("\(user.identifiedEndpoint)/follows/\(followsUser.identifier)").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+        FirebaseController.ref.child("\(user.identifiedEndpoint)/follows/\(followsUser.identifier)").observeSingleEvent(of: .value, with: { (snapshot) in
             guard let followsDictionary = snapshot.value as? String else {
-                completion(follows: nil)
+                completion(nil)
                 return
             }
             let follows = followsDictionary
-            completion(follows: follows)
+            completion(follows)
         })
     }
     
-    func followedByUser(user: User, completion: (followed: [User]?) -> Void) {
-        FirebaseController.ref.child("\(user.identifiedEndpoint)/follows").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+    func followedByUser(_ user: User, completion: @escaping (_ followed: [User]?) -> Void) {
+        FirebaseController.ref.child("\(user.identifiedEndpoint)/follows").observeSingleEvent(of: .value, with: { (snapshot) in
             guard let followedByDictionary = snapshot.value as? [String: Bool] else {
-                completion(followed: nil)
+                completion(nil)
                 return
             }
             let followIdentifiers = Array(followedByDictionary.keys)
-            let dispatchGroup = dispatch_group_create()
+            let dispatchGroup = DispatchGroup()
             var followedUsers = [User]()
             
             for identifier in followIdentifiers {
-                dispatch_group_enter(dispatchGroup)
+                dispatchGroup.enter()
                 self.fetchUserData(identifier, completion: { (user) in
                     if let user = user {
                         followedUsers.append(user)
                     }
-                    dispatch_group_leave(dispatchGroup)
+                    dispatchGroup.leave()
                 })
             }
             
-            dispatch_group_notify(dispatchGroup, dispatch_get_main_queue(), { () -> Void in
-                completion(followed: followedUsers)
+            dispatchGroup.notify(queue: DispatchQueue.main, execute: { () -> Void in
+                completion(followedUsers)
             })
         })
     }
     
-    static func authenticateUser(email: String, password: String, completion: (success: Bool, user: User?) -> Void) {
+    static func authenticateUser(_ email: String, password: String, completion: @escaping (_ success: Bool, _ user: User?) -> Void) {
         
-        FIRAuth.auth()?.signInWithEmail(email, password: password, completion: { (user, error) in
+        FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
             // TODO: Parse signed in user
             
-            if let user = user where error == nil {
+            if let user = user, error == nil {
                 print("User ID: \(user.uid) authenticated successfully.")
                 UserController.userForIdentifier(user.uid, completion: { (user) -> Void in
                     
@@ -159,31 +159,31 @@ class UserController {
                         sharedController.currentUser = user
                     }
                     
-                    completion(success: true, user: user)
+                    completion(true, user)
                 })
             } else {
                 print("Unsuccessful login attempt.")
-                completion(success: false, user: nil)
+                completion(false, nil)
             }
         })
     }
     
-    static func createUser(username username: String, firstName: String, lastName: String, email: String, password: String, bio: String?, url: String?, completion: (success: Bool, user: User?) -> Void) {
+    static func createUser(username: String, firstName: String, lastName: String, email: String, password: String, bio: String?, url: String?, completion: @escaping (_ success: Bool, _ user: User?) -> Void) {
         
-        FIRAuth.auth()?.createUserWithEmail(email, password: password, completion: { (user, error) in
-            if let user = user where error == nil {
+        FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user, error) in
+            if let user = user, error == nil {
                 var user = User(username: username, firstName: firstName, lastName: lastName, email: email, bio: bio, URL: url, identifier: user.uid)
                 user.save { error in
-                    completion(success: error == nil, user: user)
+                    completion(error == nil, user)
                 }
             } else {
                 print(error?.localizedDescription)
-                completion(success: false, user: nil)
+                completion(false, nil)
             }
         })
     }
     
-    static func updateUser(user: User, username: String, firstName: String, lastName: String, bio: String?, url: String?, completion: (success: Bool) -> Void) {
+    static func updateUser(_ user: User, username: String, firstName: String, lastName: String, bio: String?, url: String?, completion: @escaping (_ success: Bool) -> Void) {
         var updatedUser = user
         updatedUser.username = username
         updatedUser.firstName = firstName
@@ -192,10 +192,10 @@ class UserController {
         updatedUser.url = url
         updatedUser.save { error in
             if let _ = error {
-                completion(success: false)
+                completion(false)
             } else {
                 UserController.sharedController.currentUser = updatedUser
-                completion(success: error == nil)
+                completion(error == nil)
             }
         }
     }

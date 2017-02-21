@@ -11,9 +11,9 @@ import UIKit
 class LoginSignupViewController: UIViewController {
 
     enum ViewMode {
-        case Login
-        case Signup
-        case Edit
+        case login
+        case signup
+        case edit
     }
     
     @IBOutlet weak var actionButton: UIButton!
@@ -25,15 +25,15 @@ class LoginSignupViewController: UIViewController {
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
     
-    var viewMode = ViewMode.Signup
+    var viewMode = ViewMode.signup
     var fieldsAreValid: Bool {
         get {
             switch viewMode {
-            case .Login:
+            case .login:
                 return !(emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty)
-            case .Signup:
+            case .signup:
                 return !(usernameTextField.text!.isEmpty || firstNameTextField.text!.isEmpty || lastNameTextField.text!.isEmpty || emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty)
-            case .Edit:
+            case .edit:
                 return !(usernameTextField.text!.isEmpty)
             }
         }
@@ -44,7 +44,7 @@ class LoginSignupViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         updateViewBasedOnMode()
@@ -57,21 +57,21 @@ class LoginSignupViewController: UIViewController {
     
     func updateViewBasedOnMode() {
         switch viewMode {
-        case .Login:
-            firstNameTextField.hidden = true
-            lastNameTextField.hidden = true
-            usernameTextField.hidden = true
-            bioTextField.hidden = true
-            urlTextField.hidden = true
+        case .login:
+            firstNameTextField.isHidden = true
+            lastNameTextField.isHidden = true
+            usernameTextField.isHidden = true
+            bioTextField.isHidden = true
+            urlTextField.isHidden = true
             
-            actionButton.setTitle("Login", forState: .Normal)
-        case .Signup:
-            actionButton.setTitle("Signup", forState: .Normal)
-        case .Edit:
-            actionButton.setTitle("Update", forState: .Normal)
+            actionButton.setTitle("Login", for: UIControlState())
+        case .signup:
+            actionButton.setTitle("Signup", for: UIControlState())
+        case .edit:
+            actionButton.setTitle("Update", for: UIControlState())
             
-            emailTextField.hidden = true
-            passwordTextField.hidden = true
+            emailTextField.isHidden = true
+            passwordTextField.isHidden = true
             
             if let user = self.user {
                 
@@ -87,42 +87,42 @@ class LoginSignupViewController: UIViewController {
     
     func updateWithCurrentUser() {
         self.user = UserController.sharedController.currentUser
-        viewMode = .Edit
+        viewMode = .edit
     }
     
     @IBAction func actionButtonTapped() {
         
         if fieldsAreValid {
             switch viewMode {
-            case .Login:
+            case .login:
                 UserController.authenticateUser(emailTextField.text!, password: passwordTextField.text!, completion: { (success, user) -> Void in
                     
                     if success, let _ = user {
                         guard let initial = self.presentingViewController as? ViewController else { fatalError() }
-                        self.dismissViewControllerAnimated(true, completion: nil)
+                        self.dismiss(animated: true, completion: nil)
                         initial.performSegueBasedOnUserStatus()
                     } else {
                         self.presentValidationAlertWithTitle("Unable to Log In", message: "Please check your information and try again.")
                     }
                 })
-            case .Signup:
+            case .signup:
                 print(emailTextField.text)
                 UserController.createUser(username: usernameTextField.text!, firstName: firstNameTextField.text!, lastName: lastNameTextField.text!, email: emailTextField.text!, password: passwordTextField.text!, bio: bioTextField.text, url: urlTextField.text, completion: { (success, user) -> Void in
                     
                     if success, let _ = user {
                         guard let initial = self.presentingViewController as? ViewController else { fatalError() }
-                        self.dismissViewControllerAnimated(true) {
+                        self.dismiss(animated: true) {
                         initial.performSegueBasedOnUserStatus()
                         }
                     } else {
                         self.presentValidationAlertWithTitle("Unable to Signup", message: "Please check your information and try again.")
                     }
                 })
-            case .Edit:
+            case .edit:
                 UserController.updateUser(self.user!, username: self.usernameTextField.text!, firstName: self.firstNameTextField.text!, lastName: self.lastNameTextField.text!, bio: self.bioTextField.text, url: self.urlTextField.text, completion: { (success) -> Void in
                     
                     if success {
-                        self.dismissViewControllerAnimated(true, completion: nil)
+                        self.dismiss(animated: true, completion: nil)
                     } else {
                         self.presentValidationAlertWithTitle("Unable to Update User", message: "Please check your information and try again.")
                     }
@@ -134,12 +134,12 @@ class LoginSignupViewController: UIViewController {
         
     }
     
-    func presentValidationAlertWithTitle(title: String, message:String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+    func presentValidationAlertWithTitle(_ title: String, message:String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
     /*

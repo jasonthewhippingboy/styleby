@@ -22,22 +22,22 @@ class StyleByTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if let currentUser = UserController.sharedController.currentUser {
                 loadStyleFeedForUser(currentUser)
             
         } else {
-            tabBarController?.performSegueWithIdentifier("noCurrentUserSegue", sender:nil)
+            tabBarController?.performSegue(withIdentifier: "noCurrentUserSegue", sender:nil)
         }
     }
     
-    func loadStyleFeedForUser (user: User) {
+    func loadStyleFeedForUser (_ user: User) {
         PostController.fetchStyleFeedForUser(user) { (posts) -> Void in
             if let posts = posts {
                 self.posts = posts
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
                     self.tableView.reloadData()
                     self.refreshControl?.endRefreshing()
                 })
@@ -54,13 +54,13 @@ class StyleByTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return posts.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("postCell", forIndexPath: indexPath) as! PostTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as! PostTableViewCell
         
         let post = posts[indexPath.row]
         
@@ -79,13 +79,13 @@ class StyleByTableViewController: UITableViewController {
     
     
     // MARK: - Navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "stylebyToPostDetail" {
-            if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPathForCell(cell) {
+            if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) {
                 
                 let post = posts[indexPath.row]
                 
-                let destinationViewController = segue.destinationViewController as? PostDetailTableViewController
+                let destinationViewController = segue.destination as? PostDetailTableViewController
                 
                 destinationViewController?.post = post
             }

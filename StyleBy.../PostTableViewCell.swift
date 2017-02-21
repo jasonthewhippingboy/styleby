@@ -14,7 +14,7 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var likesLabel: UILabel!
     @IBOutlet weak var commentsLabel: UILabel!
     
-    func updateWithPost(post: Post) {
+    func updateWithPost(_ post: Post) {
         self.postImageView.image = nil
         
         self.likesLabel.text = "\(post.likes.count) likes"
@@ -22,7 +22,7 @@ class PostTableViewCell: UITableViewCell {
         
         ImageController.imageForIdentifier(post.imageEndpoint) { (image) -> Void in
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 self.postImageView.image = image
             })
         }
@@ -33,7 +33,7 @@ class PostTableViewCell: UITableViewCell {
         // Initialization code
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

@@ -22,14 +22,14 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, Profi
         
         if user == nil {
             user = UserController.sharedController.currentUser
-            editBarButtonItem.enabled = true
+            editBarButtonItem.isEnabled = true
         }
         
         //        print(user)
         updateBasedOnUser()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         //        UserController.userForIdentifier(user!.identifier!) { (user) -> Void in
@@ -55,7 +55,7 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, Profi
                 self.userPosts = []
             }
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 self.collectionView.reloadData()
             })
         }
@@ -69,12 +69,12 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, Profi
     
     // MARK: - Collection View Data Source
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return userPosts.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("imageCell", forIndexPath: indexPath) as! ImageCollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ImageCollectionViewCell
         
         let post = userPosts[indexPath.item]
         
@@ -83,8 +83,8 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, Profi
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "headerView", forIndexPath: indexPath) as! ProfileHeaderCollectionReusableView
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerView", for: indexPath) as! ProfileHeaderCollectionReusableView
         
         headerView.updateWithUser(user!)
         headerView.delegate = self
@@ -95,11 +95,11 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, Profi
     // MARK: - Profile Header Collection Reusable View Delegate
     
     func userTappedURLButton() {
-        if let profileURL = NSURL(string: user!.url!) {
+        if let profileURL = URL(string: user!.url!) {
             
-            let safariViewController = SFSafariViewController(URL: profileURL)
+            let safariViewController = SFSafariViewController(url: profileURL)
             
-            presentViewController(safariViewController, animated: true, completion: nil)
+            present(safariViewController, animated: true, completion: nil)
         }
     }
     
@@ -121,14 +121,14 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, Profi
                 if (follows != nil) {
                     UserController.sharedController.unfollowUser(self.user!, completion: { (success) -> Void in
                         
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        DispatchQueue.main.async(execute: { () -> Void in
                             self.updateBasedOnUser()
                         })
                     })
                 } else {
                     UserController.sharedController.followUser(self.user!, completion: { (success) -> Void in
                         
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        DispatchQueue.main.async(execute: { () -> Void in
                             self.updateBasedOnUser()
                         })
                     })
@@ -138,19 +138,19 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, Profi
     }
     
     // MARK: - Navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "editUser" {
-            let destinationViewController = segue.destinationViewController as? LoginSignupViewController
+            let destinationViewController = segue.destination as? LoginSignupViewController
             
             _ = destinationViewController?.view
             
             destinationViewController?.updateWithCurrentUser()
         } else if segue.identifier == "profileToPostDetail" {
-            if let cell = sender as? UICollectionViewCell, let indexPath = collectionView.indexPathForCell(cell) {
+            if let cell = sender as? UICollectionViewCell, let indexPath = collectionView.indexPath(for: cell) {
                 
                 let post = userPosts[indexPath.item]
                 
-                let destinationViewController = segue.destinationViewController as? PostDetailTableViewController
+                let destinationViewController = segue.destination as? PostDetailTableViewController
                 
                 destinationViewController?.post = post
             }

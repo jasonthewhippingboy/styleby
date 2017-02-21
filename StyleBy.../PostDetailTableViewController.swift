@@ -41,7 +41,7 @@ class PostDetailTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    @IBAction func likeTapped(sender: AnyObject) {
+    @IBAction func likeTapped(_ sender: AnyObject) {
         
         PostController.addLikeToPost(post!) { (success, post) -> Void in
             
@@ -52,15 +52,15 @@ class PostDetailTableViewController: UITableViewController {
         }
     }
     
-    @IBAction func addCommentTapped(sender: AnyObject) {
+    @IBAction func addCommentTapped(_ sender: AnyObject) {
         
-        let commentAlert = UIAlertController(title: "Add Comment", message: nil, preferredStyle: .Alert)
+        let commentAlert = UIAlertController(title: "Add Comment", message: nil, preferredStyle: .alert)
         
-        commentAlert.addTextFieldWithConfigurationHandler { (textfield) -> Void in
+        commentAlert.addTextField { (textfield) -> Void in
             textfield.placeholder = "Comment"
         }
         
-        commentAlert.addAction(UIAlertAction(title: "Add Comment", style: .Default, handler: { (action) -> Void in
+        commentAlert.addAction(UIAlertAction(title: "Add Comment", style: .default, handler: { (action) -> Void in
             
             if let text = commentAlert.textFields?.first?.text {
                 
@@ -74,21 +74,21 @@ class PostDetailTableViewController: UITableViewController {
             }
         }))
         
-        commentAlert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
+        commentAlert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
         
-        presentViewController(commentAlert, animated: true, completion: nil)
+        present(commentAlert, animated: true, completion: nil)
     }
     
     // MARK: - Table view data source
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return post!.comments.count
     }
     
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("commentCell", forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "commentCell", for: indexPath)
         
         let comment = post?.comments[indexPath.row]
         

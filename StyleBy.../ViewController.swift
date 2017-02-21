@@ -17,29 +17,29 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         retrieveFirstName()
-        performSelector(#selector(ViewController.performSegueBasedOnUserStatus), withObject: nil, afterDelay: 3)
+        perform(#selector(ViewController.performSegueBasedOnUserStatus), with: nil, afterDelay: 3)
     }
-    private let kFirstName = "firstName"
-    private let kUser = "userKey"
+    fileprivate let kFirstName = "firstName"
+    fileprivate let kUser = "userKey"
     
     func retrieveFirstName() {
         
-        guard let userDictionary = NSUserDefaults.standardUserDefaults().valueForKey(kUser) as? [String: AnyObject], firstName = userDictionary[kFirstName] as? String else { return }
+        guard let userDictionary = UserDefaults.standard.value(forKey: kUser) as? [String: AnyObject], let firstName = userDictionary[kFirstName] as? String else { return }
         
         
         self.userName.text = firstName
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
        
     }
     func performSegueBasedOnUserStatus() {
         if UserController.sharedController.currentUser != nil {
-            performSegueWithIdentifier("currentUser", sender: self)
+            performSegue(withIdentifier: "currentUser", sender: self)
         } else {
-            dispatch_async(dispatch_get_main_queue(), {
-                self.performSegueWithIdentifier("noUser", sender: self)
+            DispatchQueue.main.async(execute: {
+                self.performSegue(withIdentifier: "noUser", sender: self)
             })
         }
     }
