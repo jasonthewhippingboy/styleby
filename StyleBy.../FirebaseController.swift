@@ -23,7 +23,7 @@ protocol FirebaseType {
     init?(dictionary: [String: AnyObject], identifier: String)
     
     mutating func save(_ completion: ((NSError?) -> ())?)
-    func delete()
+    func delete(_ completion: ((NSError?) -> ())?)
 }
 
 extension FirebaseType {
@@ -41,10 +41,12 @@ extension FirebaseType {
         }
     }
     
-    func delete() {
+    func delete(_ completion: ((NSError?) -> ())? = nil) {
         guard let identifier = identifier else {
             return
         }
-        FirebaseController.ref.child(endpoint).child(identifier).removeValue()
+        FirebaseController.ref.child(endpoint).child(identifier).removeValue { error, ref in
+            completion?(error as NSError?)
+        }
     }
 }

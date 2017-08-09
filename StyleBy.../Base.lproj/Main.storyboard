@@ -322,6 +322,7 @@
                                     <outlet property="commentsLabel" destination="mLF-oW-sdB" id="n4Y-Fx-oSM"/>
                                     <outlet property="likesLabel" destination="EJ2-OG-qqw" id="Jy0-wO-YMo"/>
                                     <outlet property="postImageView" destination="2iG-pe-4uq" id="nO3-El-1We"/>
+                                    <segue destination="3Ya-bq-1VT" kind="show" identifier="stylebyToPostDetail" id="eoD-xD-iQt"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -351,9 +352,6 @@
                             <action selector="userRefreshedTable" destination="Tgw-tF-HYU" eventType="valueChanged" id="VIL-dR-cNT"/>
                         </connections>
                     </refreshControl>
-                    <connections>
-                        <segue destination="3Ya-bq-1VT" kind="show" identifier="stylebyToPostDetail" id="nKf-w5-Z9M"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mki-kp-dms" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -397,7 +395,7 @@
                     <navigationItem key="navigationItem" id="mA2-89-7hR">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="er6-fW-veb">
-                            <rect key="frame" x="180" y="7" width="240" height="30"/>
+                            <rect key="frame" x="68" y="7" width="240" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="Friends"/>
@@ -1022,6 +1020,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="zdv-1F-ZU9"/>
         <segue reference="92n-4s-i1Y"/>
-        <segue reference="nKf-w5-Z9M"/>
+        <segue reference="eoD-xD-iQt"/>
     </inferredMetricsTieBreakers>
 </document>

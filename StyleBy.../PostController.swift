@@ -106,11 +106,11 @@ class PostController {
     static func postFromIdentifier(_ identifier: String, completion: @escaping (_ post: Post?) -> Void) {
         
         FirebaseController.ref.child("posts/\(identifier)").observeSingleEvent(of: .value, with: { snapshot in
-            guard let userDictionary = snapshot.value as? [String: String] else {
+            guard let userDictionary = snapshot.value as? [String: AnyObject] else {
                 completion(nil)
                 return
             }
-            let post = Post(dictionary: userDictionary as [String : AnyObject], identifier: identifier)
+            let post = Post(dictionary: userDictionary, identifier: identifier)
             completion(post)
         })
     }
@@ -182,41 +182,30 @@ class PostController {
     }
     
     static func addLikeToPost(_ post: Post, completion: @escaping (_ success: Bool, _ post: Post?) -> Void) {
-        
-        if let postIdentifier = post.identifier {
-            
-            guard let currentUser = UserController.sharedController.currentUser else {
-                completion(false, nil)
-                return
-            }
-            
-            var like = Like(username: currentUser.username, postIdentifier: postIdentifier)
-            like.save()
-            
-        } else {
-            
-            var post = post
-            post.save()
-            
-            guard let currentUser = UserController.sharedController.currentUser else {
-                completion(false, nil)
-                return
-            }
-            var like = Like(username: currentUser.username, postIdentifier: post.identifier!)
-            like.save()
+        guard let currentUser = UserController.sharedController.currentUser, let postIdentifier = post.identifier else {
+            completion(false, nil)
+            return
         }
         
-        PostController.postFromIdentifier(post.identifier!, completion: { (post) -> Void in
-            completion(true, post)
-        })
+        var like = Like(username: currentUser.username, postIdentifier: postIdentifier)
+        like.save { error in
+            if let _ = error {
+                completion(false, nil)
+            } else {
+                PostController.postFromIdentifier(post.identifier!) { post in
+                    completion(true, post)
+                }
+            }
+        }
+        
     }
     
     static func deleteLike(_ like: Like, completion: @escaping (_ success: Bool, _ post: Post?) -> Void) {
         
-        like.delete()
-        
-        PostController.postFromIdentifier(like.postIdentifier) { (post) -> Void in
-            completion(true, post)
+        like.delete { error in
+            PostController.postFromIdentifier(like.postIdentifier) { (post) -> Void in
+                completion(true, post)
+            }
         }
     }
     
