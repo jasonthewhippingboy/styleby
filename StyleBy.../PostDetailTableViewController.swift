@@ -74,7 +74,7 @@ class PostDetailTableViewController: UITableViewController {
             }
         }))
         
-        commentAlert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+        commentAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         present(commentAlert, animated: true, completion: nil)
     }

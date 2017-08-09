@@ -142,42 +142,23 @@ class PostController {
     }
     
     static func addCommentWithTextToPost(_ text: String, post: Post, completion: @escaping (_ success: Bool, _ post: Post?) -> Void?) {
-        if let postIdentifier = post.identifier {
-            
-            guard let currentUser = UserController.sharedController.currentUser else {
-                completion(false, nil)
-                return
-            }
-            
-            var comment = Comment(username: currentUser.username, text: text, postIdentifier: postIdentifier)
-            comment.save()
-            
-            PostController.postFromIdentifier(comment.postIdentifier) { (post) -> Void in
-                completion(true, post)
-            }
-        } else {
-            
-            var post = post
-            post.save()
-            
-            guard let currentUser = UserController.sharedController.currentUser else {
-                completion(false, nil)
-                return
-            }
-            var comment = Comment(username: currentUser.username, text: text, postIdentifier: post.identifier!)
-            comment.save()
-            
-            PostController.postFromIdentifier(comment.postIdentifier) { (post) -> Void in
+        guard let currentUser = UserController.sharedController.currentUser, let postIdentifier = post.identifier else {
+            completion(false, nil)
+            return
+        }
+        var comment = Comment(username: currentUser.username, text: text, postIdentifier: postIdentifier)
+        comment.save { error in
+            PostController.postFromIdentifier(comment.postIdentifier) { post in
                 completion(true, post)
             }
         }
     }
     
     static func deleteComment(_ comment: Comment, completion: @escaping (_ success: Bool, _ post: Post?) -> Void) {
-        comment.delete()
-        
-        PostController.postFromIdentifier(comment.postIdentifier) { (post) -> Void in
-            completion(true, post)
+        comment.delete { error in
+            PostController.postFromIdentifier(comment.postIdentifier) { (post) -> Void in
+                completion(true, post)
+            }
         }
     }
     
