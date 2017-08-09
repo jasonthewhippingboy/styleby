@@ -2,14 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>NSCameraUsageDescription</key>
-    <string>$(PRODUCT_NAME) camera use.</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>$(PRODUCT_NAME) photos and video use.</string>
-    <key>NSContactsUsageDescription</key>
-    <string>$(PRODUCT_NAME) contacts use.</string>
-    <key>NSVideoSubscriberAccountUsageDescription</key>
-    <string>$(PRODUCT_NAME) video use.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -30,6 +22,14 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) camera use.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>$(PRODUCT_NAME) contacts use.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) photos and video use.</string>
+	<key>NSVideoSubscriberAccountUsageDescription</key>
+	<string>$(PRODUCT_NAME) video use.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
